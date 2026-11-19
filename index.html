@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reimburse Perjalanan Dinas Non-APBN</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f5f5f5;--card:#fff;
+  --primary:#5a5f6b;--primary-dark:#3a3f4a;--primary-light:#8a8f9b;--primary-bg:#f0f1f3;
+  --success:#059669;--success-light:#d1fae5;
+  --danger:#dc2626;--danger-light:#fee2e2;
+  --warning:#d97706;--warning-light:#fef3c7;
+  --info:#6b7280;--info-light:#f3f4f6;
+  --muted:#94a3b8;--muted-dark:#64748b;
+  --border:#e2e8f0;--border-light:#f1f5f9;
+  --text:#0f172a;--text-secondary:#475569;--text-tertiary:#94a3b8;
+  --radius:12px;--radius-lg:16px;--radius-sm:8px;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:0 4px 12px rgba(0,0,0,.07),0 2px 4px rgba(0,0,0,.04);
+  --shadow-lg:0 10px 30px rgba(0,0,0,.1),0 4px 8px rgba(0,0,0,.05);
+  --shadow-xl:0 20px 50px rgba(0,0,0,.15);
+  --transition:all .25s cubic-bezier(.4,0,.2,1);
+}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased;position:relative}
+body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;opacity:.07;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cdefs%3E%3Cstyle%3E.b%7Bfill:none;stroke:%235a5f6b;stroke-width:1%7D%3C/style%3E%3C/defs%3E%3C!-- kawung pattern --%3E%3Cellipse class='b' cx='50' cy='50' rx='22' ry='22'/%3E%3Cellipse class='b' cx='150' cy='50' rx='22' ry='22'/%3E%3Cellipse class='b' cx='50' cy='150' rx='22' ry='22'/%3E%3Cellipse class='b' cx='150' cy='150' rx='22' ry='22'/%3E%3Cellipse class='b' cx='100' cy='100' rx='22' ry='22'/%3E%3C!-- diamond connectors --%3E%3Cpath class='b' d='M50 28 L72 50 L50 72 L28 50Z'/%3E%3Cpath class='b' d='M150 28 L172 50 L150 72 L128 50Z'/%3E%3Cpath class='b' d='M50 128 L72 150 L50 172 L28 150Z'/%3E%3Cpath class='b' d='M150 128 L172 150 L150 172 L128 150Z'/%3E%3Cpath class='b' d='M100 78 L122 100 L100 122 L78 100Z'/%3E%3C!-- petals --%3E%3Cpath class='b' d='M50 50 Q75 25 100 50'/%3E%3Cpath class='b' d='M50 50 Q75 75 100 50'/%3E%3Cpath class='b' d='M100 50 Q125 25 150 50'/%3E%3Cpath class='b' d='M100 50 Q125 75 150 50'/%3E%3Cpath class='b' d='M50 150 Q75 125 100 150'/%3E%3Cpath class='b' d='M50 150 Q75 175 100 150'/%3E%3Cpath class='b' d='M100 150 Q125 125 150 150'/%3E%3Cpath class='b' d='M100 150 Q125 175 150 150'/%3E%3Cpath class='b' d='M50 50 Q25 75 50 100'/%3E%3Cpath class='b' d='M50 50 Q75 75 50 100'/%3E%3Cpath class='b' d='M150 50 Q125 75 150 100'/%3E%3Cpath class='b' d='M150 50 Q175 75 150 100'/%3E%3Cpath class='b' d='M50 100 Q25 125 50 150'/%3E%3Cpath class='b' d='M50 100 Q75 125 50 150'/%3E%3Cpath class='b' d='M150 100 Q125 125 150 150'/%3E%3Cpath class='b' d='M150 100 Q175 125 150 150'/%3E%3C!-- dots --%3E%3Ccircle cx='50' cy='50' r='4' fill='%235a5f6b' opacity='.5'/%3E%3Ccircle cx='150' cy='50' r='4' fill='%235a5f6b' opacity='.5'/%3E%3Ccircle cx='50' cy='150' r='4' fill='%235a5f6b' opacity='.5'/%3E%3Ccircle cx='150' cy='150' r='4' fill='%235a5f6b' opacity='.5'/%3E%3Ccircle cx='100' cy='100' r='4' fill='%235a5f6b' opacity='.5'/%3E%3Ccircle cx='100' cy='0' r='3' fill='%235a5f6b' opacity='.3'/%3E%3Ccircle cx='0' cy='100' r='3' fill='%235a5f6b' opacity='.3'/%3E%3Ccircle cx='200' cy='100' r='3' fill='%235a5f6b' opacity='.3'/%3E%3Ccircle cx='100' cy='200' r='3' fill='%235a5f6b' opacity='.3'/%3E%3C/svg%3E");background-size:160px 160px}
+body>*{position:relative;z-index:1}
+
+/* LOGIN */
+.login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:#ecedf0;position:relative;overflow:hidden}
+.login-screen::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;opacity:.08;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cdefs%3E%3Cstyle%3E.b%7Bfill:none;stroke:%235a5f6b;stroke-width:1.2%7D%3C/style%3E%3C/defs%3E%3Cellipse class='b' cx='50' cy='50' rx='22' ry='22'/%3E%3Cellipse class='b' cx='150' cy='50' rx='22' ry='22'/%3E%3Cellipse class='b' cx='50' cy='150' rx='22' ry='22'/%3E%3Cellipse class='b' cx='150' cy='150' rx='22' ry='22'/%3E%3Cellipse class='b' cx='100' cy='100' rx='22' ry='22'/%3E%3Cpath class='b' d='M50 28 L72 50 L50 72 L28 50Z'/%3E%3Cpath class='b' d='M150 28 L172 50 L150 72 L128 50Z'/%3E%3Cpath class='b' d='M50 128 L72 150 L50 172 L28 150Z'/%3E%3Cpath class='b' d='M150 128 L172 150 L150 172 L128 150Z'/%3E%3Cpath class='b' d='M100 78 L122 100 L100 122 L78 100Z'/%3E%3Cpath class='b' d='M50 50 Q75 25 100 50'/%3E%3Cpath class='b' d='M50 50 Q75 75 100 50'/%3E%3Cpath class='b' d='M100 50 Q125 25 150 50'/%3E%3Cpath class='b' d='M100 50 Q125 75 150 50'/%3E%3Cpath class='b' d='M50 150 Q75 125 100 150'/%3E%3Cpath class='b' d='M50 150 Q75 175 100 150'/%3E%3Cpath class='b' d='M100 150 Q125 125 150 150'/%3E%3Cpath class='b' d='M100 150 Q125 175 150 150'/%3E%3Cpath class='b' d='M50 50 Q25 75 50 100'/%3E%3Cpath class='b' d='M50 50 Q75 75 50 100'/%3E%3Cpath class='b' d='M150 50 Q125 75 150 100'/%3E%3Cpath class='b' d='M150 50 Q175 75 150 100'/%3E%3Cpath class='b' d='M50 100 Q25 125 50 150'/%3E%3Cpath class='b' d='M50 100 Q75 125 50 150'/%3E%3Cpath class='b' d='M150 100 Q125 125 150 150'/%3E%3Cpath class='b' d='M150 100 Q175 125 150 150'/%3E%3Ccircle cx='50' cy='50' r='4' fill='%235a5f6b' opacity='.4'/%3E%3Ccircle cx='150' cy='50' r='4' fill='%235a5f6b' opacity='.4'/%3E%3Ccircle cx='50' cy='150' r='4' fill='%235a5f6b' opacity='.4'/%3E%3Ccircle cx='150' cy='150' r='4' fill='%235a5f6b' opacity='.4'/%3E%3Ccircle cx='100' cy='100' r='4' fill='%235a5f6b' opacity='.4'/%3E%3C/svg%3E");background-size:160px 160px}
+.login-screen>*{position:relative;z-index:1}
+.login-card{background:#fff;border-radius:var(--radius-lg);box-shadow:var(--shadow-xl);width:100%;max-width:440px;overflow:hidden;animation:modalIn .4s ease}
+.login-header{background:linear-gradient(135deg,#3a3f4a,#5a5f6b);padding:36px 32px;text-align:center;color:#fff}
+.login-header .login-icon{width:64px;height:64px;border-radius:16px;background:rgba(255,255,255,.15);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:28px}
+.login-header h1{font-size:20px;font-weight:800;letter-spacing:-.3px}
+.login-header p{font-size:12px;opacity:.7;margin-top:6px;font-weight:500}
+.login-body{padding:32px}
+.login-body .form-group{margin-bottom:20px}
+.login-body .form-group label{display:block;font-size:12px;font-weight:700;color:var(--text-secondary);margin-bottom:7px;text-transform:uppercase;letter-spacing:.4px}
+.login-body select,.login-body input{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:14px;font-family:inherit;transition:var(--transition);background:#fff;color:var(--text)}
+.login-body select:focus,.login-body input:focus{outline:none;border-color:var(--primary-light);box-shadow:0 0 0 4px rgba(90,95,107,.1)}
+.login-nip{padding:12px 14px;background:var(--border-light);border-radius:var(--radius-sm);font-size:14px;font-weight:600;color:var(--text);min-height:44px;display:flex;align-items:center}
+.btn-login{width:100%;padding:14px;border:none;border-radius:var(--radius-sm);font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;background:linear-gradient(135deg,#5a5f6b,#3a3f4a);color:#fff;box-shadow:0 2px 8px rgba(90,95,107,.3);transition:var(--transition)}
+.btn-login:hover{box-shadow:0 4px 16px rgba(90,95,107,.45);transform:translateY(-1px)}
+.btn-login:active{transform:scale(.98)}
+.role-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px}
+.role-card{padding:14px;border:2px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;text-align:center;transition:var(--transition)}
+.role-card:hover{border-color:var(--primary-light);background:var(--primary-bg)}
+.role-card.selected{border-color:var(--primary);background:var(--primary-bg);box-shadow:0 0 0 3px rgba(90,95,107,.15)}
+.role-card .rci{font-size:24px;margin-bottom:6px}
+.role-card .rcn{font-size:12px;font-weight:800;color:var(--text)}
+.role-card .rcd{font-size:10px;color:var(--text-tertiary);margin-top:2px}
+
+/* HEADER */
+.header{background:linear-gradient(135deg,#3a3f4a 0%,#5a5f6b 50%,#8a8f9b 100%);color:#fff;padding:0 24px;height:64px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(90,95,107,.35)}
+.header-icon{width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.15);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px}
+.header h1{font-size:16px;font-weight:800;letter-spacing:-.3px}
+.header p{font-size:11px;opacity:.7;margin-top:1px;font-weight:500}
+.header-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.header-user{display:flex;align-items:center;gap:8px;padding:5px 14px 5px 8px;border-radius:20px;background:rgba(255,255,255,.15);backdrop-filter:blur(10px);font-size:12px;font-weight:600}
+.header-user .user-avatar{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}
+.header-role{padding:4px 10px;border-radius:12px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px}
+.header-role.role-admin{background:rgba(239,68,68,.3)}
+.header-role.role-ppk{background:rgba(16,185,129,.3)}
+.header-role.role-pum{background:rgba(245,158,11,.3)}
+.header-role.role-pegawai{background:rgba(138,143,155,.3)}
+.btn-logout{padding:5px 12px;border-radius:8px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:11px;font-weight:700;cursor:pointer;transition:var(--transition);font-family:inherit}
+.btn-logout:hover{background:rgba(255,255,255,.25)}
+
+/* NAV */
+.nav-wrap{background:#fff;border-bottom:1px solid var(--border);position:sticky;top:64px;z-index:90;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.tabs{display:flex;max-width:1200px;margin:0 auto;overflow-x:auto;padding:0 12px;gap:2px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:13px 16px;font-size:13px;font-weight:600;color:var(--muted-dark);cursor:pointer;white-space:nowrap;transition:var(--transition);position:relative;display:flex;align-items:center;gap:7px;border-radius:10px 10px 0 0}
+.tab:hover{color:var(--primary);background:var(--primary-bg)}
+.tab.active{color:var(--primary)}
+.tab.active::after{content:'';position:absolute;bottom:0;left:8px;right:8px;height:3px;background:var(--primary);border-radius:3px 3px 0 0}
+.tab-icon{font-size:15px;line-height:1}
+.tab .badge{min-width:20px;height:20px;border-radius:10px;background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;padding:0 6px;animation:pulse-badge 2s infinite}
+@keyframes pulse-badge{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+.hidden{display:none!important}
+
+/* MAIN */
+.main{max-width:1200px;margin:0 auto;padding:24px 20px}
+.panel{display:none;animation:fadeIn .3s ease}.panel.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes modalIn{from{opacity:0;transform:scale(.95) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes slideDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* CARDS */
+.card{background:var(--card);border-radius:var(--radius-lg);box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:20px;overflow:hidden;transition:var(--transition)}
+.card:hover{box-shadow:var(--shadow-md)}
+.card-header{padding:16px 24px;border-bottom:1px solid var(--border-light);display:flex;align-items:center;gap:12px;background:#fafbfc}
+.card-header-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.card-header-icon.blue{background:var(--primary-bg);color:var(--primary)}
+.card-header-icon.green{background:var(--success-light);color:var(--success)}
+.card-header h3{font-size:15px;font-weight:700;color:var(--text)}
+.card-header .subtitle{font-size:12px;color:var(--text-tertiary);margin-top:2px}
+.card-body{padding:24px}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:24px}
+.stat{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:20px;position:relative;overflow:hidden;transition:var(--transition)}
+.stat:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.stat::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.stat.stat-total::before{background:linear-gradient(90deg,#5a5f6b,#8a8f9b)}
+.stat.stat-pending::before{background:linear-gradient(90deg,#d97706,#fbbf24)}
+.stat.stat-approved::before{background:linear-gradient(90deg,#059669,#34d399)}
+.stat.stat-rejected::before{background:linear-gradient(90deg,#dc2626,#f87171)}
+.stat .num{font-size:28px;font-weight:900;letter-spacing:-1px;line-height:1}
+.stat.stat-total .num{color:var(--primary)}
+.stat.stat-pending .num{color:var(--warning)}
+.stat.stat-approved .num{color:var(--success)}
+.stat.stat-rejected .num{color:var(--danger)}
+.stat .lbl{font-size:10px;text-transform:uppercase;letter-spacing:.7px;color:var(--text-tertiary);margin-top:6px;font-weight:700}
+
+/* DASHBOARD RECAP */
+.recap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:24px}
+.recap-card{background:#fff;border-radius:var(--radius);padding:24px;border:1px solid var(--border);position:relative;overflow:hidden}
+.recap-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px}
+.recap-card.rc-trips::before{background:linear-gradient(90deg,#5a5f6b,#8a8f9b)}
+.recap-card.rc-paid::before{background:linear-gradient(90deg,#059669,#34d399)}
+.recap-card.rc-unpaid::before{background:linear-gradient(90deg,#d97706,#fbbf24)}
+.recap-card.rc-rejected::before{background:linear-gradient(90deg,#dc2626,#f87171)}
+.recap-card .rc-label{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--text-tertiary);font-weight:700}
+.recap-card .rc-value{font-size:28px;font-weight:900;letter-spacing:-1px;margin-top:8px;line-height:1}
+.recap-card.rc-trips .rc-value{color:var(--primary)}
+.recap-card.rc-paid .rc-value{color:var(--success)}
+.recap-card.rc-unpaid .rc-value{color:var(--warning)}
+.recap-card.rc-rejected .rc-value{color:var(--danger)}
+.recap-card .rc-sub{font-size:12px;color:var(--text-tertiary);margin-top:6px;font-weight:500}
+
+/* FORMS */
+.form-group{margin-bottom:18px}
+.form-group label{display:block;font-size:12px;font-weight:700;color:var(--text-secondary);margin-bottom:7px;text-transform:uppercase;letter-spacing:.4px}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:14px;font-family:inherit;transition:var(--transition);background:#fff;color:var(--text)}
+.form-group input::placeholder,.form-group textarea::placeholder{color:var(--text-tertiary)}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--primary-light);box-shadow:0 0 0 4px rgba(90,95,107,.1)}
+.form-group textarea{resize:vertical;min-height:80px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:640px){.form-row{grid-template-columns:1fr}}
+
+/* FILE UPLOAD */
+.file-upload{border:2px dashed var(--border);border-radius:var(--radius);padding:32px 20px;text-align:center;cursor:pointer;transition:var(--transition);position:relative;background:linear-gradient(135deg,#fafbfc,#f3f4f6)}
+.file-upload:hover{border-color:var(--primary-light);background:var(--primary-bg)}
+.file-upload.has-file{border-color:var(--success);border-style:solid;background:var(--success-light)}
+.file-upload input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.file-upload .upload-icon{width:48px;height:48px;border-radius:12px;background:var(--primary-bg);color:var(--primary);display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:24px}
+.file-upload.has-file .upload-icon{background:var(--success-light);color:var(--success)}
+.file-upload p{font-size:13px;color:var(--text-tertiary);font-weight:500}
+.file-upload .file-name{font-size:14px;font-weight:700;color:var(--success);margin-top:8px}
+
+.checkbox-group{display:flex;align-items:center;gap:12px;padding:14px 18px;background:linear-gradient(135deg,#fffbeb,#fef3c7);border:1px solid #fde68a;border-radius:var(--radius-sm)}
+.checkbox-group input[type=checkbox]{width:20px;height:20px;accent-color:var(--primary);cursor:pointer;flex-shrink:0}
+.checkbox-group label{font-size:13px;font-weight:600;color:#92400e;cursor:pointer}
+
+/* BUTTONS */
+.btn{padding:10px 20px;border:none;border-radius:var(--radius-sm);font-size:13px;font-weight:700;cursor:pointer;transition:var(--transition);display:inline-flex;align-items:center;gap:7px;font-family:inherit;letter-spacing:.2px}
+.btn:active{transform:scale(.96)}
+.btn-primary{background:linear-gradient(135deg,#5a5f6b,#3a3f4a);color:#fff;box-shadow:0 2px 8px rgba(90,95,107,.3)}
+.btn-primary:hover{box-shadow:0 4px 14px rgba(90,95,107,.4);transform:translateY(-1px)}
+.btn-success{background:linear-gradient(135deg,#059669,#047857);color:#fff;box-shadow:0 2px 8px rgba(5,150,105,.3)}
+.btn-success:hover{box-shadow:0 4px 14px rgba(5,150,105,.4);transform:translateY(-1px)}
+.btn-danger{background:linear-gradient(135deg,#dc2626,#b91c1c);color:#fff;box-shadow:0 2px 8px rgba(220,38,38,.3)}
+.btn-danger:hover{box-shadow:0 4px 14px rgba(220,38,38,.4);transform:translateY(-1px)}
+.btn-outline{background:#fff;color:var(--text-secondary);border:1.5px solid var(--border)}
+.btn-outline:hover{background:var(--border-light);border-color:var(--muted)}
+.btn-sm{padding:7px 14px;font-size:12px;border-radius:6px}
+.btn-group{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+
+/* STATUS */
+.status{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;white-space:nowrap}
+.status::before{content:'';width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.status-pending{background:#fef3c7;color:#92400e}.status-pending::before{background:#f59e0b;animation:blink 1.5s infinite}
+.status-approved{background:#d1fae5;color:#065f46}.status-approved::before{background:#10b981}
+.status-rejected{background:#fee2e2;color:#991b1b}.status-rejected::before{background:#ef4444}
+.status-paid{background:linear-gradient(135deg,#dbeafe,#e0e7ff);color:#1e40af}.status-paid::before{background:#3b82f6}
+
+/* TABLE */
+.table-wrap{overflow-x:auto;border-radius:var(--radius-sm);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{padding:12px 16px;text-align:left;font-weight:700;color:var(--text-tertiary);font-size:11px;text-transform:uppercase;letter-spacing:.6px;background:#f8fafc;border-bottom:2px solid var(--border)}
+td{padding:12px 16px;border-bottom:1px solid var(--border-light);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f8faff}
+
+/* ALERTS */
+.alert{padding:14px 18px;border-radius:var(--radius-sm);font-size:13px;font-weight:500;margin-bottom:16px;display:flex;align-items:flex-start;gap:12px;animation:slideDown .3s ease}
+.alert svg{width:20px;height:20px;flex-shrink:0;margin-top:1px}
+.alert-warning{background:linear-gradient(135deg,#fffbeb,#fef3c7);border:1px solid #fde68a;color:#92400e}
+.alert-danger{background:linear-gradient(135deg,#fef2f2,#fee2e2);border:1px solid #fecaca;color:#991b1b}
+.alert-success{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1px solid #bbf7d0;color:#166534}
+.alert-info{background:linear-gradient(135deg,#eff6ff,#dbeafe);border:1px solid #bfdbfe;color:#1e40af}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.6);backdrop-filter:blur(6px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.show{display:flex;animation:fadeIn .2s ease}
+.modal{background:#fff;border-radius:var(--radius-lg);width:100%;max-width:740px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-xl);animation:modalIn .3s cubic-bezier(.4,0,.2,1)}
+.modal-header{padding:20px 24px;border-bottom:1px solid var(--border-light);display:flex;justify-content:space-between;align-items:center}
+.modal-header h3{font-size:17px;font-weight:800;color:var(--text)}
+.modal-close{width:36px;height:36px;border-radius:10px;background:var(--border-light);border:none;font-size:20px;cursor:pointer;color:var(--muted-dark);display:flex;align-items:center;justify-content:center;transition:var(--transition)}
+.modal-close:hover{background:var(--danger-light);color:var(--danger)}
+.modal-body{padding:24px}
+
+/* DETAIL */
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:640px){.detail-grid{grid-template-columns:1fr}}
+.detail-item{padding:14px 16px;background:linear-gradient(135deg,#f8fafc,#f1f5f9);border-radius:var(--radius-sm);border:1px solid var(--border-light)}
+.detail-item .label{font-size:10px;text-transform:uppercase;letter-spacing:.7px;color:var(--text-tertiary);font-weight:700;margin-bottom:5px}
+.detail-item .value{font-size:14px;font-weight:700;color:var(--text)}
+
+/* TIMELINE */
+.timeline{padding:0 0 0 24px;border-left:2px solid var(--border);margin:16px 0}
+.timeline-item{padding:0 0 24px 24px;position:relative}
+.timeline-item:last-child{padding-bottom:0}
+.timeline-item::before{content:'';position:absolute;left:-8px;top:4px;width:14px;height:14px;border-radius:50%;background:#fff;border:3px solid var(--border)}
+.timeline-item.done::before{border-color:var(--success);background:var(--success)}
+.timeline-item.active::before{border-color:var(--warning);background:var(--warning);box-shadow:0 0 0 5px rgba(217,119,6,.15)}
+.timeline-item.rejected::before{border-color:var(--danger);background:var(--danger)}
+.timeline-item .tl-title{font-weight:700;font-size:13px}
+.timeline-item .tl-date{font-size:11px;color:var(--text-tertiary);margin-top:3px;font-weight:500}
+.timeline-item .tl-note{font-size:12px;color:var(--text-secondary);margin-top:6px;font-style:italic;padding:8px 12px;background:var(--border-light);border-radius:6px;border-left:3px solid var(--primary-light)}
+
+/* WORKFLOW */
+.workflow-bar{display:flex;gap:6px;margin-bottom:24px;overflow-x:auto;padding-bottom:4px}
+.wf-step{flex:1;min-width:85px;text-align:center;padding:12px 8px;background:#f1f5f9;border-radius:var(--radius-sm);font-size:11px;font-weight:700;color:var(--text-tertiary);transition:var(--transition);letter-spacing:.3px}
+.wf-step.done{background:var(--success-light);color:#065f46}
+.wf-step.active{background:var(--primary-bg);color:var(--primary);box-shadow:0 0 0 2px var(--primary-light)}
+.wf-step.rejected{background:var(--danger-light);color:#991b1b}
+
+/* COST */
+.cost-section{border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden}
+.cost-row{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--border-light);font-size:14px}
+.cost-row:last-child{border-bottom:none;background:linear-gradient(135deg,#f0f1f3,#e8eaed);font-weight:800;font-size:15px;color:var(--primary-dark);padding:14px 16px}
+.cost-row .cost-label{color:var(--text-secondary);font-weight:500}
+.rp{font-variant-numeric:tabular-nums;font-weight:600}
+
+.empty{text-align:center;padding:48px 20px;color:var(--text-tertiary)}
+.empty-icon{width:64px;height:64px;border-radius:16px;background:var(--border-light);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:28px}
+.empty p{font-size:14px;font-weight:500}
+
+.section-title{font-size:14px;font-weight:800;color:var(--text);margin:24px 0 12px;display:flex;align-items:center;gap:8px}
+
+.approval-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;transition:var(--transition)}
+.approval-card:hover{box-shadow:var(--shadow-md);border-color:var(--primary-light)}
+.approval-card .ac-top{padding:20px 24px;display:flex;gap:16px;align-items:flex-start}
+.approval-card .ac-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.approval-card .ac-icon.pending{background:var(--warning-light)}
+.approval-card .ac-info{flex:1;min-width:0}
+.approval-card .ac-title{font-size:15px;font-weight:800;color:var(--text);margin-bottom:4px}
+.approval-card .ac-meta{font-size:12px;color:var(--text-tertiary);display:flex;gap:16px;flex-wrap:wrap}
+.approval-card .ac-meta span{display:flex;align-items:center;gap:4px}
+.approval-card .ac-details{padding:0 24px 20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}
+.approval-card .ac-detail{padding:10px 14px;background:#f8fafc;border-radius:var(--radius-sm)}
+.approval-card .ac-detail .label{font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--text-tertiary);font-weight:700;margin-bottom:3px}
+.approval-card .ac-detail .value{font-size:13px;font-weight:700;color:var(--text)}
+.approval-card .ac-actions{padding:16px 24px;border-top:1px solid var(--border-light);background:#fafbfc;display:flex;flex-wrap:wrap;gap:10px;align-items:end}
+.approval-card .ac-actions .form-group{flex:1;min-width:200px;margin-bottom:0}
+.approval-card .ac-actions .btn-wrap{display:flex;gap:8px;flex-shrink:0}
+
+.pay-card{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1px solid #a7f3d0;border-radius:var(--radius);padding:24px;margin-bottom:16px;display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.pay-card .pay-amount{font-size:28px;font-weight:900;color:#059669;letter-spacing:-1px;white-space:nowrap}
+.pay-card .pay-info{flex:1;min-width:200px}
+.pay-card .pay-label{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#065f46;font-weight:700;margin-bottom:4px}
+.pay-card .pay-title{font-size:15px;font-weight:800;color:#064e3b}
+
+.full-span{grid-column:1/-1}
+
+/* ANALYSIS LOADER */
+.analysis-loader{text-align:center;padding:40px 20px}
+.analysis-loader .spinner{width:48px;height:48px;border:4px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px}
+.analysis-loader p{font-size:14px;font-weight:600;color:var(--primary)}
+.analysis-loader .sub{font-size:12px;color:var(--text-tertiary);margin-top:4px;font-weight:400}
+
+/* ANALYSIS RESULT */
+.analysis-result{border:2px solid var(--success);border-radius:var(--radius);overflow:hidden;margin-bottom:20px;animation:slideDown .4s ease}
+.analysis-result-header{padding:14px 20px;background:linear-gradient(135deg,#f0fdf4,#dcfce7);display:flex;align-items:center;gap:10px;border-bottom:1px solid #a7f3d0}
+.analysis-result-header .ar-icon{font-size:20px}
+.analysis-result-header h4{font-size:14px;font-weight:800;color:#065f46}
+.analysis-result-header .ar-badge{margin-left:auto;padding:3px 10px;border-radius:12px;background:#059669;color:#fff;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px}
+.analysis-result-body{padding:20px}
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="login-screen" class="login-screen">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="login-icon">📋</div>
+      <h1>Reimburse Perjalanan Dinas</h1>
+      <p>Non-APBN &mdash; Silakan login untuk melanjutkan</p>
+    </div>
+    <div class="login-body">
+      <div class="form-group"><label>Pilih Nama Pegawai</label><select id="login-nama" onchange="onLoginNamaChange()"><option value="">— Pilih nama pegawai —</option></select></div>
+      <div class="form-group"><label>NIP</label><div class="login-nip" id="login-nip">—</div></div>
+      <div class="form-group"><label>Login Sebagai</label>
+        <div class="role-cards">
+          <div class="role-card" data-role="pegawai" onclick="selectRole('pegawai')"><div class="rci">👤</div><div class="rcn">Pegawai</div><div class="rcd">Ajukan reimburse</div></div>
+          <div class="role-card" data-role="ppk" onclick="selectRole('ppk')"><div class="rci">✅</div><div class="rcn">PPK</div><div class="rcd">Persetujuan PPK</div></div>
+          <div class="role-card" data-role="pum" onclick="selectRole('pum')"><div class="rci">🔍</div><div class="rcn">PUM</div><div class="rcd">Pemeriksaan PUM</div></div>
+          <div class="role-card" data-role="admin" onclick="selectRole('admin')"><div class="rci">⚙️</div><div class="rcn">Admin</div><div class="rcd">Akses penuh</div></div>
+        </div>
+      </div>
+      <div class="form-group" id="password-group" style="display:none"><label>Password</label><input type="password" id="login-password" placeholder="Masukkan password"><a href="#" id="link-change-pwd" onclick="showChangePassword();return false" style="display:inline-block;margin-top:6px;font-size:12px;color:var(--primary);font-weight:600;text-decoration:underline;cursor:pointer">🔑 Ubah Password</a></div>
+      <div class="form-group" id="change-pwd-group" style="display:none;padding:16px;background:var(--primary-bg);border-radius:var(--radius);border:1.5px solid var(--primary-light)">
+        <div style="font-weight:700;font-size:13px;margin-bottom:10px">🔑 Ubah Password</div>
+        <div class="form-group"><label>Password Lama</label><input type="password" id="cp-old" placeholder="Masukkan password lama"></div>
+        <div class="form-group"><label>Password Baru</label><input type="password" id="cp-new" placeholder="Masukkan password baru (min 4 karakter)"></div>
+        <div class="form-group"><label>Konfirmasi Password Baru</label><input type="password" id="cp-confirm" placeholder="Ketik ulang password baru"></div>
+        <div class="btn-group"><button class="btn btn-success" style="padding:8px 16px;font-size:13px" onclick="doChangePassword()">💾 Simpan</button><button class="btn btn-outline" style="padding:8px 16px;font-size:13px" onclick="hideChangePassword()">Batal</button></div>
+        <div id="cp-error" style="color:#dc2626;font-size:12px;margin-top:8px;font-weight:600"></div>
+        <div id="cp-success" style="color:#059669;font-size:12px;margin-top:8px;font-weight:600"></div>
+      </div>
+      <button class="btn-login" onclick="doLogin()">Masuk</button>
+      <div id="login-error" style="color:#dc2626;font-size:13px;text-align:center;margin-top:12px;font-weight:600"></div>
+    </div>
+  </div>
+</div>
+
+<!-- APP SHELL -->
+<div id="app-shell" style="display:none">
+<div class="header">
+  <div class="header-icon">📋</div>
+  <div><h1>Reimburse Perjalanan Dinas Non-APBN</h1><p>Sistem Pengajuan &amp; Persetujuan</p></div>
+  <div class="header-right">
+    <div class="header-user"><div class="user-avatar" id="user-avatar"></div><span id="user-name-display"></span></div>
+    <span class="header-role" id="user-role-display"></span>
+    <button class="btn-logout" onclick="doLogout()">Logout</button>
+  </div>
+</div>
+<div class="nav-wrap"><div class="tabs" id="tabs">
+  <div class="tab" data-tab="dashboard" data-roles="pegawai,admin"><span class="tab-icon">🏠</span>Dashboard</div>
+  <div class="tab" data-tab="pengajuan" data-roles="pegawai,admin"><span class="tab-icon">📝</span>Pengajuan</div>
+  <div class="tab" data-tab="ppk" data-roles="ppk,admin"><span class="tab-icon">✅</span>Persetujuan PPK<span class="badge hidden" id="badge-ppk"></span></div>
+  <div class="tab" data-tab="detail" data-roles="pegawai,admin"><span class="tab-icon">📊</span>Biaya Tambahan<span class="badge hidden" id="badge-detail"></span></div>
+  <div class="tab" data-tab="pum" data-roles="pum,admin"><span class="tab-icon">🔍</span>Pemeriksaan PUM<span class="badge hidden" id="badge-pum"></span></div>
+  <div class="tab" data-tab="bayar" data-roles="admin"><span class="tab-icon">💰</span>Pembayaran<span class="badge hidden" id="badge-bayar"></span></div>
+  <div class="tab" data-tab="riwayat" data-roles="pegawai,ppk,pum,admin"><span class="tab-icon">📁</span>Riwayat</div>
+  <div class="tab" data-tab="kelola-user" data-roles="admin"><span class="tab-icon">👥</span>Kelola User</div>
+</div></div>
+<div class="main">
+
+<!-- DASHBOARD -->
+<div class="panel" id="panel-dashboard">
+  <div style="margin-bottom:20px"><h2 style="font-size:20px;font-weight:900" id="dash-greeting"></h2><p style="font-size:13px;color:var(--text-tertiary);margin-top:4px">Berikut rekap perjalanan dinas Anda</p></div>
+  <div class="recap-grid" id="recap-cards"></div>
+  <div class="card"><div class="card-header"><div class="card-header-icon blue">📋</div><h3>Pengajuan Saya</h3></div><div class="card-body" style="padding:0"><div class="table-wrap" style="border:none;border-radius:0"><table>
+    <thead><tr><th>No</th><th>No. ST</th><th>Perihal</th><th>Lokasi</th><th>Tgl Dinas</th><th>Total Biaya</th><th>Status</th><th>Aksi</th></tr></thead>
+    <tbody id="tb-dashboard"></tbody>
+  </table></div></div></div>
+</div>
+
+<!-- PENGAJUAN -->
+<div class="panel" id="panel-pengajuan">
+  <div class="card">
+    <div class="card-header"><div class="card-header-icon blue">📝</div><div><h3>Upload Surat Tugas</h3><div class="subtitle">Upload file ST (PDF) yang sudah di-TTE, lalu isi data sesuai isi ST</div></div></div>
+    <div class="card-body">
+      <div id="warnings"></div>
+      <div class="form-group">
+        <label>Upload Surat Tugas (PDF) *</label>
+        <div class="file-upload" id="file-upload-area">
+          <input type="file" id="f-file" accept=".pdf" onchange="onFileSelected()">
+          <div class="upload-icon">📄</div>
+          <p>Klik atau seret file PDF Surat Tugas ke sini</p>
+          <div class="file-name" id="file-name" style="display:none"></div>
+        </div>
+      </div>
+      <div class="checkbox-group"><input type="checkbox" id="f-tte"><label for="f-tte">Surat Tugas ini sudah ditandatangani secara elektronik (TTE)</label></div>
+
+      <!-- Loading placeholder (hidden) -->
+      <div id="analysis-loading" style="display:none"></div>
+
+      <!-- Editable form (shown after upload) -->
+      <div id="edit-form-section" style="display:none">
+        <div class="analysis-result" style="margin-top:20px">
+          <div class="analysis-result-header"><span class="ar-icon">📝</span><h4>Data Surat Tugas</h4><span class="ar-badge">Isi Manual</span></div>
+          <div class="analysis-result-body">
+            <div class="alert alert-info" style="margin-bottom:16px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4m0-4h.01"/></svg><span>Silakan isi data di bawah sesuai dengan isi Surat Tugas yang di-upload. Biaya Transport Lokal / Uang Harian akan dihitung otomatis berdasarkan jenis, tanggal, dan jumlah pegawai.</span></div>
+            <div class="form-row">
+              <div class="form-group"><label>Nomor ST *</label><input type="text" id="f-nomorST" placeholder="ST-001/BAPPEBTI/11/2026"></div>
+              <div class="form-group"><label>Tanggal ST *</label><input type="date" id="f-tanggalST"></div>
+            </div>
+            <div class="form-group"><label>Perihal / Kegiatan *</label><input type="text" id="f-perihal" placeholder="Monitoring SRG Jawa Timur"></div>
+            <div class="form-row">
+              <div class="form-group"><label>Lokasi Dinas *</label><input type="text" id="f-lokasi" placeholder="Surabaya, Jawa Timur"></div>
+              <div class="form-group"><label>Jenis Perjalanan *</label><select id="f-jenis" onchange="recalcBiaya()"><option value="dalam_kota">Dalam Kota</option><option value="luar_kota">Luar Kota</option></select></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label>Tanggal Mulai Dinas *</label><input type="date" id="f-tglMulai" onchange="recalcBiaya()"></div>
+              <div class="form-group"><label>Tanggal Selesai Dinas *</label><input type="date" id="f-tglSelesai" onchange="recalcBiaya()"></div>
+            </div>
+            <div class="form-group">
+              <label>Pegawai yang Ditugaskan *</label>
+              <div style="display:flex;gap:8px;margin-bottom:10px">
+                <select id="f-pegawai-select" style="flex:1;padding:11px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:14px;font-family:inherit"><option value="">— Pilih pegawai —</option></select>
+                <button class="btn btn-sm btn-primary" onclick="addPegawai()">+ Tambah</button>
+              </div>
+              <div id="pegawai-tags" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Auto-calculated cost preview -->
+        <div id="auto-cost-preview" style="margin-top:16px"></div>
+
+        <!-- Biaya tambahan input -->
+        <div id="tambahan-section" style="display:none">
+          <div class="section-title" style="margin-top:24px">💰 Biaya Tambahan (di luar Transport Lokal &amp; Uang Harian)</div>
+          <div class="alert alert-info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4m0-4h.01"/></svg><span>Biaya Transport Lokal dan Uang Harian sudah dihitung otomatis. Silakan tambahkan biaya lain jika ada (e-toll, hotel, dsb).</span></div>
+          <div id="tambahan-list"></div>
+          <div class="form-row">
+            <div class="form-group"><label>Jenis Biaya</label><select id="add-jenis"><option value="Transport (E-Toll)">Transport (E-Toll)</option><option value="Penginapan/Hotel">Penginapan/Hotel</option><option value="Transport Lainnya">Transport Lainnya</option><option value="Lain-lain">Lain-lain</option></select></div>
+            <div class="form-group"><label>Nominal (Rp)</label><input type="number" id="add-nominal" placeholder="250000"></div>
+          </div>
+          <div class="form-group"><label>Keterangan</label><input type="text" id="add-ket" placeholder="Keterangan biaya"></div>
+          <button class="btn btn-sm btn-outline" onclick="addTambahanPengajuan()">+ Tambah Biaya</button>
+        </div>
+
+        <!-- Total & submit -->
+        <div id="cost-summary" style="margin-top:24px">
+          <div class="section-title">📊 Ringkasan Biaya</div>
+          <div class="cost-section" id="cost-summary-rows"></div>
+        </div>
+        <div id="submit-section">
+          <div class="btn-group"><button class="btn btn-primary" onclick="submitPengajuan()">Ajukan Reimburse</button><button class="btn btn-outline" onclick="resetForm()">Reset</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PPK -->
+<div class="panel" id="panel-ppk"><div class="stats" id="stats-ppk"></div><div id="list-ppk"></div></div>
+
+<!-- DETAIL BIAYA (Tambahan) -->
+<div class="panel" id="panel-detail"><div id="list-detail"></div></div>
+
+<!-- PUM -->
+<div class="panel" id="panel-pum"><div id="list-pum"></div></div>
+
+<!-- PEMBAYARAN -->
+<div class="panel" id="panel-bayar"><div id="list-bayar"></div></div>
+
+<!-- RIWAYAT -->
+<div class="panel" id="panel-riwayat">
+  <div class="stats" id="stats-riwayat"></div>
+  <div class="card"><div class="card-header"><div class="card-header-icon blue">📁</div><h3>Semua Pengajuan</h3></div><div class="card-body">
+    <div class="form-group" style="margin-bottom:16px"><input type="text" id="search-riwayat" placeholder="Cari berdasarkan nama, nomor ST, atau perihal..."></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>No</th><th>No. ST</th><th>Pengaju</th><th>Perihal</th><th>Lokasi</th><th>Jenis</th><th>Tgl Dinas</th><th>Total Biaya</th><th>Status</th><th>Aksi</th></tr></thead>
+      <tbody id="tb-riwayat"></tbody>
+    </table></div>
+  </div></div>
+</div>
+
+<!-- KELOLA USER -->
+<div class="panel" id="panel-kelola-user">
+  <div class="card"><div class="card-header"><div class="card-header-icon blue">👥</div><h3>Kelola User PPK / PUM / Admin</h3></div><div class="card-body">
+    <div style="padding:20px;background:var(--primary-bg);border-radius:var(--radius);border:1.5px solid var(--primary-light);margin-bottom:20px">
+      <div class="section-title" style="margin-bottom:12px">➕ Daftarkan User Baru</div>
+      <div class="form-row">
+        <div class="form-group"><label>Pegawai *</label><select id="reg-nama"><option value="">— Pilih pegawai —</option></select></div>
+        <div class="form-group"><label>Role *</label><select id="reg-role"><option value="">— Pilih role —</option><option value="ppk">PPK</option><option value="pum">PUM</option><option value="admin">Admin</option></select></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Password *</label><input type="text" id="reg-password" placeholder="Buat password"></div>
+        <div class="form-group" style="display:flex;align-items:flex-end"><button class="btn btn-success" style="padding:12px 24px" onclick="registerUser()">✅ Daftarkan</button></div>
+      </div>
+    </div>
+    <div class="section-title" style="margin-bottom:12px">📋 User Terdaftar</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>No</th><th>Nama</th><th>NIP</th><th>Role</th><th>Aksi</th></tr></thead>
+      <tbody id="tb-users"></tbody>
+    </table></div>
+  </div></div>
+</div>
+
+</div></div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-detail">
+  <div class="modal"><div class="modal-header"><h3 id="modal-title">Detail Pengajuan</h3><button class="modal-close" onclick="closeModal('modal-detail')">&times;</button></div><div class="modal-body" id="modal-body"></div></div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="modal-overlay" id="modal-edit">
+  <div class="modal" style="max-width:640px"><div class="modal-header"><h3>✏️ Edit Pengajuan</h3><button class="modal-close" onclick="closeModal('modal-edit')">&times;</button></div><div class="modal-body" id="modal-edit-body"></div></div>
+</div>
+
+<!-- CONFIRM MODAL -->
+<div class="modal-overlay" id="modal-confirm">
+  <div class="modal" style="max-width:420px">
+    <div class="modal-header"><h3 id="confirm-title">Konfirmasi</h3><button class="modal-close" onclick="closeModal('modal-confirm')">&times;</button></div>
+    <div class="modal-body">
+      <p id="confirm-msg" style="font-size:14px;line-height:1.6;margin-bottom:20px"></p>
+      <div class="btn-group">
+        <button class="btn btn-danger" id="confirm-yes" style="padding:12px 24px">Ya, Hapus</button>
+        <button class="btn btn-outline" onclick="closeModal('modal-confirm')" style="padding:12px 24px">Batal</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ALERT MODAL -->
+<div class="modal-overlay" id="modal-alert">
+  <div class="modal" style="max-width:400px">
+    <div class="modal-header"><h3 id="alert-title">Info</h3><button class="modal-close" onclick="closeModal('modal-alert')">&times;</button></div>
+    <div class="modal-body">
+      <p id="alert-msg" style="font-size:14px;line-height:1.6;margin-bottom:16px"></p>
+      <button class="btn btn-primary" onclick="closeModal('modal-alert')" style="padding:10px 24px;width:100%">OK</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const EMPLOYEES=[
+// Sekretariat (48)
+{nama:'Aditya G Anggalaksana',nip:'198505112025211026'},
+{nama:'Anita Nurahmi',nip:'199410182022032013'},
+{nama:'Anzar Nispiansyah',nip:'198704142025211069'},
+{nama:'Apriliyanto',nip:'198204082010121004'},
+{nama:'Ardhie Achmad Faridy',nip:'199605202025051001'},
+{nama:'Aryo Guritno',nip:'197407212008011005'},
+{nama:'Astina Claudea Azaria',nip:'199710282022032006'},
+{nama:'Dara Resmi Asbiantari',nip:'198709102009122004'},
+{nama:'Deni U Sutisna',nip:'198504042025211038'},
+{nama:'Diese Maria Irianty',nip:'198412302008012004'},
+{nama:'Dwi Anjani Kamiswara',nip:'198709232014022004'},
+{nama:'Erni Artati',nip:'197108222002122003'},
+{nama:'Fahmi Syaeful Millah',nip:'199106112024211008'},
+{nama:'Fitriana Puji Lestari',nip:'199503052020122016'},
+{nama:'Guruh Setyo Nugroho',nip:'199504012024211012'},
+{nama:'Haris Fadilah Husein',nip:'199902222023211001'},
+{nama:'Harri Yansah',nip:'199007062025211038'},
+{nama:'Harry Prihatmoko',nip:'198202152006041004'},
+{nama:'Hendra Gunawan',nip:'198203282025211023'},
+{nama:'Hendrawan Setyaji Joewarto',nip:'198110252009121001'},
+{nama:'Intan Purnama',nip:'199011102020122017'},
+{nama:'Irtan Wahyudin',nip:'197710252025211015'},
+{nama:'Ivan Fithriyanto',nip:'197311032003121006'},
+{nama:'Jose Natanael Situmeang',nip:'199912262025051001'},
+{nama:'Laurentius Santoso Wibowo',nip:'198407042009121001'},
+{nama:'Leli Wulandari',nip:'198402062025212015'},
+{nama:'Melinda',nip:'198305022010122003'},
+{nama:'Muara Mas Murni Rosalina',nip:'198403142009122001'},
+{nama:'Muflihah Widiyani',nip:'198509282009122001'},
+{nama:'Muhamad Rizky Saputra',nip:'199601092025211019'},
+{nama:'Nurhadi Panca Wibowo',nip:'198306012009121001'},
+{nama:'Nuri Syamsiah',nip:'198303102006042004'},
+{nama:'Rena Afriany',nip:'198104102005022001'},
+{nama:'Renatha Savira Ekasetya Putri',nip:'197608182006042001'},
+{nama:'Risa Trijuliyani',nip:'199206232025212022'},
+{nama:'Samino',nip:'197108112025211025'},
+{nama:'Septi Anggraeni',nip:'199106152024212029'},
+{nama:'Sunna Laila Azhari',nip:'199806112025052006'},
+{nama:'Sutrisno',nip:'198512102005021001'},
+{nama:'Suyatno',nip:'197908022025211015'},
+{nama:'Syam Habib Pamungkas',nip:'199106282025051001'},
+{nama:'Tirta Karma Senjaya',nip:'197507182005021001'},
+{nama:'Vera Hendrias Kumalasari',nip:'198203232006042027'},
+{nama:'Verawati',nip:'199404052025212032'},
+{nama:'Windy Wulandari',nip:'198402052009122002'},
+{nama:'Yessi Uli Cahayana',nip:'198707192022032002'},
+{nama:'Yetty Widyawarini',nip:'197801292002122001'},
+{nama:'Yoanita',nip:'199204222025212025'},
+// Biro Peraturan Perundang-undangan PBK, SRG, PLK (24)
+{nama:'Anastasia',nip:'199703292025052003'},
+{nama:'Andy Panroytua Zulkarnaen',nip:'198609232022031001'},
+{nama:'Asep Irvan Nurohim',nip:'198412262019021002'},
+{nama:'Dwi Risa Pusti',nip:'199009302022032004'},
+{nama:'Fitrhah Adzan',nip:'199210232015022002'},
+{nama:'Hanna Herviana',nip:'198212142010122002'},
+{nama:'Hary Lesmana',nip:'198507292014021004'},
+{nama:'Ira Delvina',nip:'198910032014022001'},
+{nama:'Mas Aji Enggar Buwono',nip:'199612202025211017'},
+{nama:'Muhammad Iqbal Isnaeni',nip:'199109142018011001'},
+{nama:'Nanda Ainnur Rochmah',nip:'200303082025052001'},
+{nama:'Nilam Dyah Puspito Sari',nip:'198310062009122003'},
+{nama:'Octavian Hendryansyah',nip:'199710042025211031'},
+{nama:'Reza Ardiansyah',nip:'199204092024211012'},
+{nama:'Ridwan Fachrudin',nip:'199410232019021006'},
+{nama:'Rifah Ariny',nip:'197905122002122002'},
+{nama:'Rio Ramadhani',nip:'198804242014021004'},
+{nama:'Rosa Winarni',nip:'196909111989032001'},
+{nama:'Sigit Nugroho',nip:'197905192006041001'},
+{nama:'Teuku Fernandi Noval',nip:'197911082014021001'},
+{nama:'Trinanda Ultari',nip:'198908172014022002'},
+{nama:'Widyaningsih Sari S',nip:'198708182009122002'},
+{nama:'Yovian Andri P.',nip:'197904022005021001'},
+{nama:'Yulia Kurniasari',nip:'199307042020122023'},
+// Biro Pengawasan dan Penindakan PBK, SRG, PLK (37)
+{nama:'Agus Salim Suseno',nip:'198808172015021001'},
+{nama:'Agus Sulistiyanto',nip:'198011082009011007'},
+{nama:'Amser Irawan Panjaitan',nip:'198203282009011003'},
+{nama:'Anggia Shintia Dewi',nip:'198509082010122003'},
+{nama:'Aprilia Rahmadini',nip:'198704292025212010'},
+{nama:'Aprillia Rizky Dwi Utami',nip:'199804272025052004'},
+{nama:'Aulia Puspa Ramadhani',nip:'199801272022032005'},
+{nama:'Bernard Asido Silitonga',nip:'199008242014021001'},
+{nama:'Chandra Fredrik Purba',nip:'198812142020121007'},
+{nama:'Christian Anggoro',nip:'198911032019021006'},
+{nama:'Darojatun Mayunirmala',nip:'198005032006042005'},
+{nama:'Devi Priyanti',nip:'200012222025052003'},
+{nama:'Dharmawan Prakarso Ry Putra',nip:'197604302010121002'},
+{nama:'Eryalfan Setyo Prakoso',nip:'199306042022031003'},
+{nama:'Fahmiandi Kabul Ahsan',nip:'199611042022031005'},
+{nama:'Gresia B',nip:'199904292022032011'},
+{nama:'Hasna Anintya Isnursasi',nip:'199602022022032005'},
+{nama:'Indra Setiawan',nip:'198306062006041003'},
+{nama:'Insaniyah Maharani',nip:'199912232025052008'},
+{nama:'Matheus Hendro Purnomo',nip:'196812271989011001'},
+{nama:'Mawardi Kartasasmita',nip:'199207062019021003'},
+{nama:'Melinda Ariani',nip:'198306042025212015'},
+{nama:'Muhamad Irzal',nip:'197902032009011007'},
+{nama:'Paulus Taripar Lumban Batu',nip:'198909292024211016'},
+{nama:'Pirdaus Sabana',nip:'198804052019021005'},
+{nama:'Raiza Gumala',nip:'199510302024212023'},
+{nama:'Rendy Cisara Sandy',nip:'199707042022031003'},
+{nama:'Reysa Rachmat Toengkagie',nip:'199202082018011001'},
+{nama:'Rizka Trianita',nip:'198709272025212038'},
+{nama:'Shilla Novira Pertiwi',nip:'199911102022032002'},
+{nama:'Sri Sundayani',nip:'197404072002122004'},
+{nama:'Sylvia Shela Sondang H',nip:'200302052025052003'},
+{nama:'Taufik Hidayat',nip:'198110192006041001'},
+{nama:'Tito Yassin',nip:'199103272022031002'},
+{nama:'Vina Hariyuningsih',nip:'199806022020122010'},
+{nama:'Yasa Iskandar',nip:'199211242025211034'},
+{nama:'Yesi Adventina Sinaga',nip:'199812172025052004'},
+// Biro Pembinaan dan Pengembangan SRG dan PLK (29)
+{nama:'Angga Fariz Prayoga',nip:'198905132019021004'},
+{nama:'Anindya Dewi Sekartaji',nip:'200003152022032003'},
+{nama:'Aprilia Anggita Putri',nip:'200104052025052004'},
+{nama:'Athika Budi Prihatini',nip:'198310272009012002'},
+{nama:'Aulia Edlin Pradana',nip:'199608012022031005'},
+{nama:'Busrol Karim',nip:'197106301992031002'},
+{nama:'Christiani Fanolo Daeli',nip:'199512102022032009'},
+{nama:'Dara Laksmita Ayuningtyas K',nip:'198706262022032001'},
+{nama:'Diah Sandita Arisanti',nip:'197504052002122004'},
+{nama:'Ekky Endah Safitri',nip:'199603082020122016'},
+{nama:'Lavinia Cindy Carolina',nip:'199504052025212069'},
+{nama:'Maulida Afiaty',nip:'198312282009122001'},
+{nama:'Meindro Bayu K',nip:'198105012009121002'},
+{nama:'Mohammad Hairulloh',nip:'197908072025211041'},
+{nama:'Muhammad Rasyid Shidiq',nip:'199709032022031008'},
+{nama:'Mutia Endang Novianti',nip:'198311202009122002'},
+{nama:'Nahda Ratu Aulia',nip:'200110172025052003'},
+{nama:'Noval Nazwanuril Wafi',nip:'199505282018011001'},
+{nama:'Putranti Mumpuni',nip:'199209192024212020'},
+{nama:'Rachmad Wahyudi',nip:'197905202006041002'},
+{nama:'Rayung Kirti Malini',nip:'199804292022032009'},
+{nama:'Rida Zuanda',nip:'198904082018011003'},
+{nama:'Risky Irawan',nip:'198607122025211062'},
+{nama:'Rutkaya Simanungkalit',nip:'198701132020122010'},
+{nama:'Sri Puji Astuti',nip:'199505262022032009'},
+{nama:'Syifa Yasmine Septiani',nip:'199909092022032007'},
+{nama:'Tiara Kencana Ayu',nip:'198802092014022001'},
+{nama:'Tomi Setiawan',nip:'197906022008011011'},
+{nama:'Yudha Skripsi Anggrahita',nip:'198307022018011002'},
+// Biro Pembinaan dan Pengembangan PBK (34)
+{nama:'Alvin Rifqy Abdilla',nip:'199603312020121010'},
+{nama:'Anisa Wahyu Utami',nip:'199710312020122017'},
+{nama:'Arifudin Akbar',nip:'198607152010121002'},
+{nama:'Bobby Raja Indra',nip:'199206252020121011'},
+{nama:'Cohen William Manggading N',nip:'199302042020121010'},
+{nama:'Danny Agus Setianto',nip:'198008022002121002'},
+{nama:'Dian Illuh Lentari',nip:'198105312006042003'},
+{nama:'Dody Frandika A. Simanjuntak',nip:'198602122014021001'},
+{nama:'Sahudi',nip:'196108011982031002'},
+{nama:'Elisabet Martaulina Br.S.',nip:'198209182006042002'},
+{nama:'Eni Baiti Sarah',nip:'198209102025212027'},
+{nama:'Gita Regina Napitupulu',nip:'198607222014022001'},
+{nama:'Haidir Ali',nip:'199409032025211022'},
+{nama:'Hera Liana',nip:'199306042020122016'},
+{nama:'Hermawan Susanto',nip:'198512172010121002'},
+{nama:'Hilda Roma Uli Siahaan',nip:'199104302019022006'},
+{nama:'Ima Siti Fatimah',nip:'197907022002122002'},
+{nama:'Ivana Elabaesa Sumbayak',nip:'199103142020122012'},
+{nama:'Kurniati',nip:'198910292020122011'},
+{nama:'Laminar Purba',nip:'199706072022032005'},
+{nama:'Lely Rachma Septiana',nip:'198809042019022005'},
+{nama:'M. Syist',nip:'196110221993011001'},
+{nama:'Nieke Lina Ikawati',nip:'198408052014022001'},
+{nama:'Pipiet Faizal Amin',nip:'198507282009011006'},
+{nama:'Poppy Juliyanti',nip:'197607172008012019'},
+{nama:'Rafii Rabbani Thalib',nip:'199803302025211007'},
+{nama:'Rezky Febriansyah',nip:'198202012010121001'},
+{nama:'Riana Septiani',nip:'199309252025212030'},
+{nama:'Samuri',nip:'198901042024211007'},
+{nama:'Soni Sugiharto',nip:'198411202020121006'},
+{nama:'Tasha Kharismaputri',nip:'199206062019022009'},
+{nama:'Verdina Laras',nip:'200110052025052007'},
+{nama:'Winahyu Saraswati',nip:'198710162010122001'},
+{nama:'Yevi Athalia',nip:'198401022010122002'}
+];
+
+// ST_TEMPLATES removed — form is now fully manual
+
+const STORE_KEY='reimburse_dinas_v5';
+const SESSION_KEY='reimburse_session';
+const USERS_KEY='reimburse_users_v1';
+function loadData(){try{return JSON.parse(localStorage.getItem(STORE_KEY))||[]}catch(e){return[]}}
+function saveData(d){try{localStorage.setItem(STORE_KEY,JSON.stringify(d))}catch(e){}}
+function getSession(){try{return JSON.parse(localStorage.getItem(SESSION_KEY))||null}catch(e){return null}}
+function setSession(s){localStorage.setItem(SESSION_KEY,JSON.stringify(s))}
+function clearSession(){localStorage.removeItem(SESSION_KEY)}
+function loadUsers(){try{return JSON.parse(localStorage.getItem(USERS_KEY))||[]}catch(e){return[]}}
+function saveUsers(u){localStorage.setItem(USERS_KEY,JSON.stringify(u))}
+// Initialize default admin if none exists
+function initDefaultAdmin(){
+  let users=loadUsers();
+  const defaults=[
+    {nip:'198306012009121001',nama:'Nurhadi Panca Wibowo',role:'admin',password:'admin123'},
+    {nip:'198306012009121001',nama:'Nurhadi Panca Wibowo',role:'ppk',password:'ppk123'},
+    {nip:'199011102020122017',nama:'Intan Purnama',role:'pum',password:'pum123'}
+  ];
+  let changed=false;
+  defaults.forEach(df=>{
+    if(!users.some(u=>u.nip===df.nip&&u.role===df.role)){users.push(df);changed=true}
+  });
+  if(changed)saveUsers(users);
+  return users;
+}
+let registeredUsers=initDefaultAdmin();
+let data=loadData();
+let currentUser=null;
+let pendingAnalysis=null; // holds analysis result before submit
+let pendingTambahan=[]; // additional costs before submit
+
+const STATUS_MAP={
+  pending_ppk:{label:'Menunggu PPK',cls:'status-pending'},
+  rejected_ppk:{label:'Ditolak PPK',cls:'status-rejected'},
+  approved_ppk:{label:'Disetujui PPK',cls:'status-approved'},
+  pending_detail:{label:'Input Biaya Tambahan',cls:'status-pending'},
+  pending_pum:{label:'Menunggu PUM',cls:'status-pending'},
+  rejected_pum:{label:'Ditolak PUM',cls:'status-rejected'},
+  approved_pum:{label:'Sudah Sesuai',cls:'status-approved'},
+  paid:{label:'Sudah Dibayar',cls:'status-paid'}
+};
+function statusBadge(s){const m=STATUS_MAP[s]||{label:s,cls:''};return'<span class="status '+m.cls+'">'+m.label+'</span>'}
+function formatRp(n){return'Rp '+Number(n||0).toLocaleString('id-ID')}
+function formatDate(d){if(!d)return'-';return new Date(d).toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'})}
+function genId(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+function daysBetween(a,b){return Math.max(1,Math.round((new Date(b)-new Date(a))/864e5)+1)}
+
+// LOGIN
+function initLogin(){
+  const sel=document.getElementById('login-nama');
+  EMPLOYEES.forEach(e=>{const o=document.createElement('option');o.value=e.nip;o.textContent=e.nama;sel.appendChild(o)});
+  const session=getSession();
+  if(session){currentUser=session;showApp()}
+}
+function onLoginNamaChange(){
+  const nip=document.getElementById('login-nama').value;
+  const emp=EMPLOYEES.find(e=>e.nip===nip);
+  document.getElementById('login-nip').textContent=emp?emp.nip:'—';
+}
+let selectedRole='';
+function selectRole(role){
+  selectedRole=role;
+  document.querySelectorAll('.role-card').forEach(c=>c.classList.toggle('selected',c.dataset.role===role));
+  // Show/hide password field
+  const pg=document.getElementById('password-group');
+  if(['ppk','pum','admin'].includes(role)){pg.style.display='';document.getElementById('login-password').focus()}
+  else{pg.style.display='none';document.getElementById('login-password').value=''}
+}
+function showChangePassword(){document.getElementById('change-pwd-group').style.display='';document.getElementById('cp-error').textContent='';document.getElementById('cp-success').textContent=''}
+function hideChangePassword(){document.getElementById('change-pwd-group').style.display='none';document.getElementById('cp-old').value='';document.getElementById('cp-new').value='';document.getElementById('cp-confirm').value=''}
+function doChangePassword(){
+  const nip=document.getElementById('login-nama').value;
+  const role=selectedRole;
+  const oldPwd=document.getElementById('cp-old').value;
+  const newPwd=document.getElementById('cp-new').value;
+  const confirmPwd=document.getElementById('cp-confirm').value;
+  const errEl=document.getElementById('cp-error');
+  const sucEl=document.getElementById('cp-success');
+  errEl.textContent='';sucEl.textContent='';
+  if(!nip){errEl.textContent='Pilih nama pegawai dulu';return}
+  if(!['ppk','pum','admin'].includes(role)){errEl.textContent='Pilih role PPK/PUM/Admin dulu';return}
+  if(!oldPwd){errEl.textContent='Masukkan password lama';return}
+  if(!newPwd||newPwd.length<4){errEl.textContent='Password baru minimal 4 karakter';return}
+  if(newPwd!==confirmPwd){errEl.textContent='Konfirmasi password tidak cocok';return}
+  registeredUsers=loadUsers();
+  const u=registeredUsers.find(u=>u.nip===nip&&u.role===role);
+  if(!u){errEl.textContent='Anda belum terdaftar sebagai '+role.toUpperCase();return}
+  if(u.password!==oldPwd){errEl.textContent='Password lama salah';return}
+  u.password=newPwd;
+  saveUsers(registeredUsers);
+  sucEl.textContent='Password berhasil diubah!';
+  document.getElementById('cp-old').value='';document.getElementById('cp-new').value='';document.getElementById('cp-confirm').value='';
+}
+function doLogin(){
+  const nip=document.getElementById('login-nama').value;
+  if(!nip){document.getElementById('login-error').textContent='Pilih nama pegawai terlebih dahulu';return}
+  if(!selectedRole){document.getElementById('login-error').textContent='Pilih role login';return}
+  const emp=EMPLOYEES.find(e=>e.nip===nip);
+  // PPK, PUM, Admin require registration + password
+  if(['ppk','pum','admin'].includes(selectedRole)){
+    registeredUsers=loadUsers();
+    const pwd=document.getElementById('login-password').value;
+    if(!pwd){document.getElementById('login-error').textContent='Password wajib diisi untuk role '+selectedRole.toUpperCase();return}
+    const regUser=registeredUsers.find(u=>u.nip===nip&&u.role===selectedRole);
+    if(!regUser){document.getElementById('login-error').textContent='Anda belum terdaftar sebagai '+selectedRole.toUpperCase()+'. Hubungi Admin untuk didaftarkan.';return}
+    if(regUser.password!==pwd){document.getElementById('login-error').textContent='Password salah!';return}
+  }
+  currentUser={nama:emp.nama,nip:emp.nip,role:selectedRole};
+  setSession(currentUser);document.getElementById('login-error').textContent='';document.getElementById('login-password').value='';showApp();
+}
+function doLogout(){
+  clearSession();currentUser=null;selectedRole='';
+  document.getElementById('app-shell').style.display='none';
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('login-nama').value='';
+  document.getElementById('login-nip').textContent='—';
+  document.getElementById('login-password').value='';
+  document.getElementById('password-group').style.display='none';
+  document.querySelectorAll('.role-card').forEach(c=>c.classList.remove('selected'));
+}
+function showApp(){
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app-shell').style.display='block';
+  document.getElementById('user-avatar').textContent=currentUser.nama.charAt(0).toUpperCase();
+  document.getElementById('user-name-display').textContent=currentUser.nama;
+  const rd=document.getElementById('user-role-display');
+  rd.textContent=currentUser.role.toUpperCase();rd.className='header-role role-'+currentUser.role;
+  const role=currentUser.role;let firstTab=null;
+  document.querySelectorAll('.tab').forEach(t=>{
+    const roles=(t.dataset.roles||'').split(',');
+    if(roles.includes(role)){t.classList.remove('hidden');if(!firstTab)firstTab=t}else{t.classList.add('hidden');t.classList.remove('active')}
+  });
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  if(firstTab){firstTab.classList.add('active');document.getElementById('panel-'+firstTab.dataset.tab).classList.add('active')}
+  refreshAll();
+}
+
+// TABS
+document.querySelectorAll('.tab').forEach(t=>{t.addEventListener('click',()=>{
+  if(t.classList.contains('hidden'))return;
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+  t.classList.add('active');document.getElementById('panel-'+t.dataset.tab).classList.add('active');refreshAll();
+})});
+
+// FILE UPLOAD & ANALYSIS
+let selectedPegawai=[]; // array of nama strings
+
+function onFileSelected(){
+  const fi=document.getElementById('f-file'),area=document.getElementById('file-upload-area'),fn=document.getElementById('file-name');
+  if(!fi.files.length){area.classList.remove('has-file');fn.style.display='none';hideAnalysis();return}
+  area.classList.add('has-file');fn.style.display='block';fn.textContent=fi.files[0].name;
+  // Show empty form for manual input
+  pendingTambahan=[];selectedPegawai=[];
+  showEmptyForm();
+}
+
+function hideAnalysis(){
+  document.getElementById('analysis-loading').style.display='none';
+  document.getElementById('edit-form-section').style.display='none';
+  pendingAnalysis=null;pendingTambahan=[];selectedPegawai=[];
+}
+
+function showEmptyForm(){
+  // Clear all fields
+  document.getElementById('f-nomorST').value='';
+  document.getElementById('f-tanggalST').value='';
+  document.getElementById('f-perihal').value='';
+  document.getElementById('f-lokasi').value='';
+  document.getElementById('f-jenis').value='dalam_kota';
+  document.getElementById('f-tglMulai').value='';
+  document.getElementById('f-tglSelesai').value='';
+
+  // Populate pegawai dropdown
+  const sel=document.getElementById('f-pegawai-select');
+  sel.innerHTML='<option value="">— Pilih pegawai —</option>';
+  EMPLOYEES.forEach(e=>{
+    sel.innerHTML+='<option value="'+e.nama+'">'+e.nama+' ('+e.nip+')</option>';
+  });
+
+  // Add logged-in user as first pegawai
+  selectedPegawai=[];
+  if(currentUser)selectedPegawai.push(currentUser.nama);
+  renderPegawaiTags();
+
+  // Show the form
+  document.getElementById('edit-form-section').style.display='block';
+  document.getElementById('tambahan-section').style.display='none';
+
+  // Set flag so other functions know form is active
+  pendingAnalysis=true;
+
+  recalcBiaya();
+}
+
+function addPegawai(){
+  const sel=document.getElementById('f-pegawai-select');
+  const nama=sel.value;
+  if(!nama)return;
+  if(selectedPegawai.includes(nama)){showAlert(nama+' sudah ada di daftar');return}
+  selectedPegawai.push(nama);
+  sel.value='';
+  renderPegawaiTags();
+  recalcBiaya();
+}
+
+function removePegawai(idx){
+  selectedPegawai.splice(idx,1);
+  renderPegawaiTags();
+  recalcBiaya();
+}
+
+function renderPegawaiTags(){
+  const el=document.getElementById('pegawai-tags');
+  if(!selectedPegawai.length){el.innerHTML='<span style="color:var(--text-secondary);font-size:13px">Belum ada pegawai dipilih</span>';return}
+  el.innerHTML=selectedPegawai.map((p,i)=>
+    '<span style="display:inline-flex;align-items:center;gap:4px;background:var(--primary-light);color:var(--primary);padding:5px 10px;border-radius:20px;font-size:13px;font-weight:500">'+p+
+    '<button onclick="removePegawai('+i+')" style="background:none;border:none;cursor:pointer;color:var(--primary);font-size:16px;padding:0 2px;line-height:1" title="Hapus">×</button></span>'
+  ).join('');
+}
+
+function recalcBiaya(){
+  const jenis=document.getElementById('f-jenis').value;
+  const tglMulai=document.getElementById('f-tglMulai').value;
+  const tglSelesai=document.getElementById('f-tglSelesai').value;
+  const jmlOrang=selectedPegawai.length;
+
+  // Calculate jumlah hari
+  let jumlahHari=1;
+  if(tglMulai&&tglSelesai){
+    const d1=new Date(tglMulai),d2=new Date(tglSelesai);
+    jumlahHari=Math.max(1,Math.round((d2-d1)/(86400000))+1);
+  }
+
+  const isLK=jenis==='luar_kota';
+  const rateTL=170000,rateHarian=300000;
+  const biayaTL=isLK?0:rateTL*jmlOrang*jumlahHari;
+  const biayaHarian=isLK?rateHarian*jmlOrang*jumlahHari:0;
+  const biayaBase=isLK?biayaHarian:biayaTL;
+  const rate=isLK?rateHarian:rateTL;
+  const rateLabel=isLK?'Uang Harian':'Transport Lokal';
+
+  // Show/hide tambahan based on jenis
+  document.getElementById('tambahan-section').style.display=isLK?'block':'none';
+
+  // Auto cost preview
+  let preview='<div class="analysis-result"><div class="analysis-result-header"><span class="ar-icon">💰</span><h4>Biaya Otomatis ('+rateLabel+')</h4></div><div class="analysis-result-body">';
+  if(jmlOrang>0&&jumlahHari>0){
+    preview+='<div class="table-wrap"><table><thead><tr><th>No</th><th>Nama</th><th>'+rateLabel+'</th><th>Hari</th><th>Subtotal</th></tr></thead><tbody>';
+    selectedPegawai.forEach((p,i)=>{
+      preview+='<tr><td>'+(i+1)+'</td><td><strong>'+p+'</strong></td><td class="rp">'+formatRp(rate)+'/hari</td><td>'+jumlahHari+'</td><td class="rp"><strong>'+formatRp(rate*jumlahHari)+'</strong></td></tr>';
+    });
+    preview+='</tbody></table></div>';
+    preview+='<div class="cost-section" style="margin-top:12px"><div class="cost-row"><span class="cost-label">'+rateLabel+' ('+jmlOrang+' org × '+jumlahHari+' hari × '+formatRp(rate)+')</span><span class="rp"><strong>'+formatRp(biayaBase)+'</strong></span></div></div>';
+  } else {
+    preview+='<p style="color:var(--text-secondary);font-size:14px">Lengkapi tanggal dan pegawai untuk melihat kalkulasi biaya</p>';
+  }
+  preview+='</div></div>';
+  document.getElementById('auto-cost-preview').innerHTML=preview;
+
+  renderCostSummary();
+}
+
+// Tambahan costs (pre-submit)
+function addTambahanPengajuan(){
+  const nominal=parseInt(document.getElementById('add-nominal').value)||0;
+  if(!nominal){showAlert('Nominal harus diisi');return}
+  pendingTambahan.push({
+    jenis:document.getElementById('add-jenis').value,
+    nominal,
+    keterangan:document.getElementById('add-ket').value.trim()
+  });
+  document.getElementById('add-nominal').value='';document.getElementById('add-ket').value='';
+  renderTambahanList();renderCostSummary();
+}
+function removePendingTambahan(idx){
+  pendingTambahan.splice(idx,1);renderTambahanList();renderCostSummary();
+}
+function renderTambahanList(){
+  const el=document.getElementById('tambahan-list');
+  if(!pendingTambahan.length){el.innerHTML='';return}
+  el.innerHTML='<div class="table-wrap" style="margin-bottom:16px"><table><thead><tr><th>Jenis</th><th>Keterangan</th><th>Nominal</th><th></th></tr></thead><tbody>'+
+    pendingTambahan.map((t,i)=>'<tr><td>'+t.jenis+'</td><td>'+(t.keterangan||'-')+'</td><td class="rp">'+formatRp(t.nominal)+'</td><td><button class="btn btn-sm btn-danger" style="padding:2px 8px" onclick="removePendingTambahan('+i+')">×</button></td></tr>').join('')+
+    '</tbody></table></div>';
+}
+function getFormBiaya(){
+  const jenis=document.getElementById('f-jenis').value;
+  const tglMulai=document.getElementById('f-tglMulai').value;
+  const tglSelesai=document.getElementById('f-tglSelesai').value;
+  const jmlOrang=selectedPegawai.length;
+  let jumlahHari=1;
+  if(tglMulai&&tglSelesai){
+    const d1=new Date(tglMulai),d2=new Date(tglSelesai);
+    jumlahHari=Math.max(1,Math.round((d2-d1)/86400000)+1);
+  }
+  const isLK=jenis==='luar_kota';
+  const rateTL=170000,rateHarian=300000;
+  const biayaTL=isLK?0:rateTL*jmlOrang*jumlahHari;
+  const biayaHarian=isLK?rateHarian*jmlOrang*jumlahHari:0;
+  return {isLK,jumlahHari,biayaTL,biayaHarian,totalBase:biayaTL+biayaHarian};
+}
+
+function renderCostSummary(){
+  if(!pendingAnalysis)return;
+  const b=getFormBiaya();
+  const rateLabel=b.isLK?'Uang Harian':'Transport Lokal';
+  const biayaBase=b.isLK?b.biayaHarian:b.biayaTL;
+  const totalTambahan=pendingTambahan.reduce((s,t)=>s+t.nominal,0);
+  const grandTotal=b.totalBase+totalTambahan;
+  let rows='<div class="cost-row"><span class="cost-label">'+rateLabel+' (otomatis)</span><span class="rp">'+formatRp(biayaBase)+'</span></div>';
+  pendingTambahan.forEach(t=>{rows+='<div class="cost-row"><span class="cost-label">'+t.jenis+(t.keterangan?' ('+t.keterangan+')':'')+'</span><span class="rp">'+formatRp(t.nominal)+'</span></div>'});
+  rows+='<div class="cost-row"><span>TOTAL BIAYA</span><span class="rp">'+formatRp(grandTotal)+'</span></div>';
+  document.getElementById('cost-summary-rows').innerHTML=rows;
+}
+
+// SUBMIT
+function submitPengajuan(){
+  if(!currentUser||!pendingAnalysis)return;
+  const fi=document.getElementById('f-file');
+  if(!document.getElementById('f-tte').checked){
+    document.getElementById('warnings').innerHTML='<div class="alert alert-danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg><span>Surat Tugas harus sudah di-TTE</span></div>';return;
+  }
+  // Read from editable form fields
+  const nomorST=document.getElementById('f-nomorST').value.trim();
+  const tanggalST=document.getElementById('f-tanggalST').value;
+  const perihal=document.getElementById('f-perihal').value.trim();
+  const lokasi=document.getElementById('f-lokasi').value.trim();
+  const jenis=document.getElementById('f-jenis').value;
+  const tglMulai=document.getElementById('f-tglMulai').value;
+  const tglSelesai=document.getElementById('f-tglSelesai').value;
+
+  // Validation
+  if(!nomorST||!tanggalST||!perihal||!lokasi||!tglMulai||!tglSelesai){
+    document.getElementById('warnings').innerHTML='<div class="alert alert-danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg><span>Semua field bertanda * wajib diisi</span></div>';return;
+  }
+  if(!selectedPegawai.length){
+    document.getElementById('warnings').innerHTML='<div class="alert alert-danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg><span>Minimal 1 pegawai harus dipilih</span></div>';return;
+  }
+
+  // Duplicate ST check
+  const dup=data.filter(d=>d.nomorST===nomorST&&d.status!=='rejected_ppk'&&d.status!=='rejected_pum');
+  if(dup.length){document.getElementById('warnings').innerHTML='<div class="alert alert-danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg><span>Nomor ST "'+nomorST+'" sudah pernah diajukan.</span></div>';return}
+  // Overlap check
+  const overlaps=[];
+  data.forEach(d=>{
+    if(d.status==='rejected_ppk'||d.status==='rejected_pum')return;
+    (d.pegawai||[]).forEach(p=>{
+      selectedPegawai.forEach(inp=>{
+        if(p.toLowerCase()===inp.toLowerCase()){
+          if(tglMulai<=d.tglSelesai&&tglSelesai>=d.tglMulai)
+            overlaps.push('"'+p+'" sudah dinas '+formatDate(d.tglMulai)+' - '+formatDate(d.tglSelesai)+' (ST: '+d.nomorST+')');
+        }
+      });
+    });
+  });
+  if(overlaps.length){
+    document.getElementById('warnings').innerHTML='<div class="alert alert-warning"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg><span><strong>EARLY WARNING — Tanggal tumpang tindih:</strong><br>'+[...new Set(overlaps)].join('<br>')+'</span></div>';
+  }
+
+  const b=getFormBiaya();
+  const totalTambahan=pendingTambahan.reduce((s,t)=>s+t.nominal,0);
+  data.push({
+    id:genId(),pengaju:currentUser.nama,pengajuNip:currentUser.nip,
+    nomorST,tanggalST,perihal,lokasi,
+    tglMulai,tglSelesai,jenis,
+    pegawai:[...selectedPegawai],jumlahHari:b.jumlahHari,
+    fileName:fi.files[0].name,isTTE:true,status:'pending_ppk',
+    tanggalSubmit:new Date().toISOString(),
+    biayaTransportLokal:b.biayaTL,biayaUangHarian:b.biayaHarian,
+    biayaTambahan:[...pendingTambahan],
+    totalBiaya:b.totalBase+totalTambahan,
+    ppk:null,pum:null,payment:null,
+    history:[{date:new Date().toISOString(),action:'Pengajuan dibuat',by:currentUser.nama}]
+  });
+  saveData(data);resetForm();
+  document.getElementById('warnings').innerHTML='<div class="alert alert-success"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span><strong>Berhasil!</strong> Pengajuan disubmit. Menunggu persetujuan PPK.</span></div>';
+  setTimeout(()=>{document.getElementById('warnings').innerHTML=''},4000);
+  refreshAll();
+}
+
+function resetForm(){
+  document.getElementById('f-file').value='';
+  document.getElementById('file-upload-area').classList.remove('has-file');
+  document.getElementById('file-name').style.display='none';
+  document.getElementById('f-tte').checked=false;
+  document.getElementById('f-nomorST').value='';
+  document.getElementById('f-tanggalST').value='';
+  document.getElementById('f-perihal').value='';
+  document.getElementById('f-lokasi').value='';
+  document.getElementById('f-jenis').value='dalam_kota';
+  document.getElementById('f-tglMulai').value='';
+  document.getElementById('f-tglSelesai').value='';
+  selectedPegawai=[];
+  pendingAnalysis=null;pendingTambahan=[];
+  hideAnalysis();
+}
+
+// REFRESH ALL
+function refreshAll(){refreshDashboard();refreshPPK();refreshDetail();refreshPUM();refreshBayar();refreshRiwayat();refreshKelolaUser();updateBadges()}
+
+function updateBadges(){
+  const myData=currentUser?.role==='pegawai'?data.filter(d=>d.pengajuNip===currentUser.nip):data;
+  const c={
+    ppk:data.filter(d=>d.status==='pending_ppk').length,
+    detail:(currentUser?.role==='pegawai'?myData:data).filter(d=>d.status==='pending_detail').length,
+    pum:data.filter(d=>d.status==='pending_pum').length,
+    bayar:data.filter(d=>d.status==='approved_pum').length
+  };
+  Object.entries(c).forEach(([k,v])=>{const b=document.getElementById('badge-'+k);if(b){if(v>0){b.textContent=v;b.classList.remove('hidden')}else{b.classList.add('hidden')}}});
+}
+
+// DASHBOARD
+function refreshDashboard(){
+  if(!currentUser)return;
+  document.getElementById('dash-greeting').textContent='Halo, '+currentUser.nama+'!';
+  const my=currentUser.role==='admin'?data:data.filter(d=>d.pengajuNip===currentUser.nip);
+  const totalTrips=my.length;
+  const paidItems=my.filter(d=>d.status==='paid');
+  const totalPaid=paidItems.reduce((a,d)=>a+d.totalBiaya,0);
+  const unpaidItems=my.filter(d=>!['paid','rejected_ppk','rejected_pum'].includes(d.status));
+  const totalUnpaid=unpaidItems.reduce((a,d)=>a+d.totalBiaya,0);
+  const rejectedCount=my.filter(d=>d.status==='rejected_ppk'||d.status==='rejected_pum').length;
+  document.getElementById('recap-cards').innerHTML=
+    '<div class="recap-card rc-trips"><div class="rc-label">Total Perjalanan</div><div class="rc-value">'+totalTrips+'</div><div class="rc-sub">pengajuan reimburse</div></div>'+
+    '<div class="recap-card rc-paid"><div class="rc-label">Sudah Dibayar</div><div class="rc-value">'+formatRp(totalPaid)+'</div><div class="rc-sub">'+paidItems.length+' pengajuan selesai</div></div>'+
+    '<div class="recap-card rc-unpaid"><div class="rc-label">Belum Dibayar</div><div class="rc-value">'+formatRp(totalUnpaid)+'</div><div class="rc-sub">'+unpaidItems.length+' pengajuan dalam proses</div></div>'+
+    '<div class="recap-card rc-rejected"><div class="rc-label">Ditolak</div><div class="rc-value">'+rejectedCount+'</div><div class="rc-sub">pengajuan ditolak</div></div>';
+  const tb=document.getElementById('tb-dashboard');
+  if(!my.length){tb.innerHTML='<tr><td colspan="8" style="text-align:center;color:var(--text-tertiary);padding:40px">Belum ada pengajuan</td></tr>';return}
+  tb.innerHTML=my.slice().reverse().map((d,i)=>'<tr><td>'+(my.length-i)+'</td><td><strong>'+d.nomorST+'</strong></td><td>'+d.perihal+'</td><td>'+(d.lokasi||'-')+'</td><td>'+formatDate(d.tglMulai)+' — '+formatDate(d.tglSelesai)+'</td><td class="rp">'+(d.totalBiaya?formatRp(d.totalBiaya):'-')+'</td><td>'+statusBadge(d.status)+'</td><td><button class="btn btn-sm btn-outline" onclick="showDetail(\''+d.id+'\')">Detail</button></td></tr>').join('');
+}
+
+// PPK
+function refreshPPK(){
+  const items=data.filter(d=>d.status==='pending_ppk');
+  const c=document.getElementById('list-ppk'),s=document.getElementById('stats-ppk');
+  const total=data.length,pending=items.length,
+    approved=data.filter(d=>['approved_ppk','pending_detail','pending_pum','approved_pum','paid'].includes(d.status)).length,
+    rejected=data.filter(d=>d.status==='rejected_ppk').length;
+  s.innerHTML='<div class="stat stat-total"><div class="num">'+total+'</div><div class="lbl">Total</div></div><div class="stat stat-pending"><div class="num">'+pending+'</div><div class="lbl">Menunggu</div></div><div class="stat stat-approved"><div class="num">'+approved+'</div><div class="lbl">Disetujui</div></div><div class="stat stat-rejected"><div class="num">'+rejected+'</div><div class="lbl">Ditolak</div></div>';
+  if(!items.length){c.innerHTML='<div class="card"><div class="card-body"><div class="empty"><div class="empty-icon">✅</div><p>Tidak ada pengajuan menunggu persetujuan PPK</p></div></div></div>';return}
+  c.innerHTML=items.map(d=>{
+    const isLK=d.jenis==='luar_kota';
+    return '<div class="approval-card"><div class="ac-top"><div class="ac-icon pending">📋</div><div class="ac-info"><div class="ac-title">'+d.perihal+'</div><div class="ac-meta"><span>'+d.pengaju+'</span><span>'+d.nomorST+'</span><span>📍 '+(d.lokasi||'-')+'</span><span>'+formatDate(d.tglMulai)+' — '+formatDate(d.tglSelesai)+'</span></div></div>'+statusBadge(d.status)+'</div><div class="ac-details"><div class="ac-detail"><div class="label">Jenis</div><div class="value">'+(isLK?'Luar Kota':'Dalam Kota')+'</div></div><div class="ac-detail"><div class="label">Lokasi</div><div class="value">'+(d.lokasi||'-')+'</div></div><div class="ac-detail"><div class="label">Hari</div><div class="value">'+d.jumlahHari+' hari</div></div><div class="ac-detail"><div class="label">Pegawai</div><div class="value">'+d.pegawai.length+' orang</div></div><div class="ac-detail"><div class="label">Total Biaya</div><div class="value rp">'+formatRp(d.totalBiaya)+'</div></div><div class="ac-detail"><div class="label">File ST</div><div class="value">TTE ✅</div></div></div><div class="ac-actions"><div class="form-group"><label>Catatan PPK</label><textarea id="ppk-note-'+d.id+'" placeholder="Tulis catatan..." style="min-height:50px"></textarea></div><div class="btn-wrap"><button class="btn btn-success" onclick="ppkAction(\''+d.id+'\',\'approve\')">Setujui</button><button class="btn btn-danger" onclick="ppkAction(\''+d.id+'\',\'reject\')">Tolak</button><button class="btn btn-outline" onclick="showDetail(\''+d.id+'\')">Detail</button></div></div></div>';
+  }).join('');
+}
+
+function ppkAction(id,action){
+  const item=data.find(d=>d.id===id);if(!item)return;
+  const note=document.getElementById('ppk-note-'+id)?.value||'';
+  if(action==='reject'&&!note){showAlert('Harap isi alasan penolakan.');return}
+  item.ppk={status:action==='approve'?'approved':'rejected',tanggal:new Date().toISOString(),catatan:note,oleh:currentUser?.nama||'PPK'};
+  if(action==='approve'){
+    item.status='pending_detail';
+    item.history.push({date:new Date().toISOString(),action:'Disetujui PPK',by:currentUser?.nama||'PPK',note});
+  }else{item.status='rejected_ppk';item.history.push({date:new Date().toISOString(),action:'Ditolak PPK',by:currentUser?.nama||'PPK',note})}
+  saveData(data);refreshAll();
+}
+
+// DETAIL BIAYA (Tambahan setelah PPK approve)
+function refreshDetail(){
+  const myItems=currentUser?.role==='pegawai'?data.filter(d=>d.status==='pending_detail'&&d.pengajuNip===currentUser.nip):data.filter(d=>d.status==='pending_detail');
+  const c=document.getElementById('list-detail');
+  if(!myItems.length){c.innerHTML='<div class="card"><div class="card-body"><div class="empty"><div class="empty-icon">📊</div><p>Tidak ada pengajuan yang perlu input biaya tambahan</p></div></div></div>';return}
+  c.innerHTML=myItems.map(d=>{
+    const isLK=d.jenis==='luar_kota',rate=isLK?300000:170000,rateLabel=isLK?'Uang Harian':'Transport Lokal';
+    const biayaBase=isLK?d.biayaUangHarian:d.biayaTransportLokal;
+    return '<div class="card"><div class="card-header"><div class="card-header-icon green">📊</div><div><h3>'+d.perihal+'</h3><div class="subtitle">'+d.nomorST+' — '+d.pengaju+' — 📍 '+(d.lokasi||'-')+'</div></div></div><div class="card-body">'+
+      '<div class="alert alert-info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4m0-4h.01"/></svg><span>Biaya '+rateLabel+' sudah dihitung otomatis. Tambahkan biaya lainnya jika ada, lalu kirim ke PUM.</span></div>'+
+      '<div class="cost-section"><div class="cost-row"><span class="cost-label">'+rateLabel+' — otomatis ('+d.pegawai.length+' org × '+d.jumlahHari+' hari)</span><span class="rp">'+formatRp(biayaBase)+'</span></div>'+
+      (d.biayaTambahan||[]).map((bt,i)=>'<div class="cost-row"><span class="cost-label">'+bt.jenis+(bt.keterangan?' ('+bt.keterangan+')':'')+'</span><span class="rp">'+formatRp(bt.nominal)+' <button class="btn btn-sm btn-danger" style="padding:2px 8px;margin-left:6px" onclick="removeTambahan(\''+d.id+'\','+i+')">×</button></span></div>').join('')+
+      '<div class="cost-row"><span>TOTAL BIAYA</span><span class="rp">'+formatRp(d.totalBiaya)+'</span></div></div>'+
+      (isLK?'<div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--border)"><div class="section-title">Tambah Biaya Lainnya</div><div class="form-row"><div class="form-group"><label>Jenis Biaya</label><select id="add-jenis-'+d.id+'"><option value="Transport (E-Toll)">Transport (E-Toll)</option><option value="Penginapan/Hotel">Penginapan/Hotel</option><option value="Transport Lainnya">Transport Lainnya</option><option value="Lain-lain">Lain-lain</option></select></div><div class="form-group"><label>Nominal (Rp)</label><input type="number" id="add-nominal-'+d.id+'" placeholder="250000"></div></div><div class="form-group"><label>Keterangan</label><input type="text" id="add-ket-'+d.id+'" placeholder="Keterangan"></div><button class="btn btn-sm btn-outline" onclick="addTambahan(\''+d.id+'\')">+ Tambah Biaya</button></div>':'')+
+      '<div style="margin-top:20px;padding:20px;background:var(--primary-bg);border-radius:var(--radius);border:1.5px solid var(--primary-light)"><p style="font-size:13px;color:var(--text-secondary);margin-bottom:14px;font-weight:500">Jika semua data dan biaya sudah benar, kirim ke PUM untuk diperiksa:</p><div class="btn-group"><button class="btn btn-success" style="padding:14px 28px;font-size:15px" onclick="submitDetail(\''+d.id+'\')">✅ Sudah Benar — Kirim ke PUM</button><button class="btn btn-outline" onclick="showDetail(\''+d.id+'\')">Lihat Detail</button></div></div></div></div>';
+  }).join('');
+}
+
+function addTambahan(id){
+  const item=data.find(d=>d.id===id);if(!item)return;
+  const nominal=parseInt(document.getElementById('add-nominal-'+id).value)||0;
+  if(!nominal){showAlert('Nominal harus diisi');return}
+  if(!item.biayaTambahan)item.biayaTambahan=[];
+  item.biayaTambahan.push({jenis:document.getElementById('add-jenis-'+id).value,nominal,keterangan:document.getElementById('add-ket-'+id).value.trim()});
+  item.totalBiaya=(item.biayaUangHarian||0)+(item.biayaTransportLokal||0)+item.biayaTambahan.reduce((s,b)=>s+b.nominal,0);
+  saveData(data);refreshDetail();
+}
+function removeTambahan(id,idx){
+  const item=data.find(d=>d.id===id);if(!item||!item.biayaTambahan)return;
+  item.biayaTambahan.splice(idx,1);
+  item.totalBiaya=(item.biayaUangHarian||0)+(item.biayaTransportLokal||0)+item.biayaTambahan.reduce((s,b)=>s+b.nominal,0);
+  saveData(data);refreshDetail();
+}
+function submitDetail(id){
+  const item=data.find(d=>d.id===id);if(!item)return;
+  item.status='pending_pum';item.history.push({date:new Date().toISOString(),action:'Biaya tambahan disubmit ke PUM',by:currentUser?.nama||item.pengaju});
+  saveData(data);refreshAll();
+}
+
+// PUM
+function refreshPUM(){
+  const pending=data.filter(d=>d.status==='pending_pum');
+  const approved=data.filter(d=>d.status==='approved_pum');
+  const c=document.getElementById('list-pum');
+  if(!pending.length&&!approved.length){c.innerHTML='<div class="card"><div class="card-body"><div class="empty"><div class="empty-icon">🔍</div><p>Tidak ada pengajuan menunggu pemeriksaan PUM</p></div></div></div>';return}
+  let html='';
+  // Pending items — need review
+  if(pending.length){
+    html+='<div class="section-title" style="margin-bottom:16px">📋 Menunggu Pemeriksaan</div>';
+    html+=pending.map(d=>{
+      const isLK=d.jenis==='luar_kota';
+      return '<div class="approval-card"><div class="ac-top"><div class="ac-icon pending">🔍</div><div class="ac-info"><div class="ac-title">'+d.perihal+'</div><div class="ac-meta"><span>'+d.pengaju+'</span><span>'+d.nomorST+'</span><span>📍 '+(d.lokasi||'-')+'</span><span>'+formatDate(d.tglMulai)+' — '+formatDate(d.tglSelesai)+'</span></div></div></div><div style="padding:0 24px 16px"><div class="cost-section"><div class="cost-row"><span class="cost-label">'+(isLK?'Uang Harian':'Transport Lokal')+' — otomatis ('+d.pegawai.length+' org × '+d.jumlahHari+' hari)</span><span class="rp">'+formatRp(isLK?d.biayaUangHarian:d.biayaTransportLokal)+'</span></div>'+(d.biayaTambahan||[]).map(bt=>'<div class="cost-row"><span class="cost-label">'+bt.jenis+(bt.keterangan?' ('+bt.keterangan+')':'')+'</span><span class="rp">'+formatRp(bt.nominal)+'</span></div>').join('')+'<div class="cost-row"><span>TOTAL BIAYA</span><span class="rp">'+formatRp(d.totalBiaya)+'</span></div></div></div><div class="ac-actions"><div class="form-group"><label>Catatan / Alasan PUM</label><textarea id="pum-note-'+d.id+'" placeholder="Wajib diisi jika menolak..." style="min-height:50px"></textarea></div><div class="btn-wrap"><button class="btn btn-success" style="padding:12px 24px;font-size:14px" onclick="pumAction(\''+d.id+'\',\'approve\')">✅ Sudah Sesuai — Setujui</button><button class="btn btn-danger" style="padding:12px 24px;font-size:14px" onclick="pumAction(\''+d.id+'\',\'reject\')">❌ Perlu Perbaikan — Tolak</button><button class="btn btn-outline" onclick="showDetail(\''+d.id+'\')">📄 Lihat Detail</button></div></div></div>';
+    }).join('');
+  }
+  // Approved items — need payment info
+  if(approved.length){
+    html+='<div class="section-title" style="margin:24px 0 16px">💰 Sudah Sesuai — Isi Data Pembayaran</div>';
+    html+=approved.map(d=>{
+      return '<div class="card"><div class="card-body"><div class="pay-card"><div class="pay-info"><div class="pay-label" style="color:var(--success);font-weight:700">✅ Sudah Sesuai</div><div class="pay-title">'+d.perihal+' — '+d.nomorST+'</div><div style="font-size:12px;color:var(--text-secondary);margin-top:4px">'+d.pengaju+' · 📍 '+(d.lokasi||'')+' · '+d.pegawai.length+' pegawai · '+d.jumlahHari+' hari</div></div><div class="pay-amount">'+formatRp(d.totalBiaya)+'</div></div>'+
+        '<div style="margin-top:16px;padding:20px;background:var(--primary-bg);border-radius:var(--radius);border:1.5px solid var(--primary-light)">'+
+        '<div class="section-title" style="margin-bottom:12px">📝 Data Pembayaran</div>'+
+        '<div class="form-row"><div class="form-group"><label>Tanggal Pembayaran *</label><input type="date" id="pay-date-'+d.id+'"></div><div class="form-group"><label>Catatan Pembayaran</label><input type="text" id="pay-note-'+d.id+'" placeholder="Misal: Transfer via BRI / No. SP2D"></div></div>'+
+        '<div class="btn-group"><button class="btn btn-success" style="padding:14px 28px;font-size:15px" onclick="markPaidPUM(\''+d.id+'\')">💰 Konfirmasi Sudah Dibayar</button><button class="btn btn-outline" onclick="showDetail(\''+d.id+'\')">📄 Detail</button></div>'+
+        '</div></div></div>';
+    }).join('');
+  }
+  c.innerHTML=html;
+}
+function pumAction(id,action){
+  const item=data.find(d=>d.id===id);if(!item)return;
+  const note=document.getElementById('pum-note-'+id)?.value||'';
+  if(action==='reject'&&!note){showAlert('WAJIB tulis alasan penolakan.');return}
+  item.pum={status:action==='approve'?'approved':'rejected',tanggal:new Date().toISOString(),alasan:note,oleh:currentUser?.nama||'PUM'};
+  if(action==='approve'){item.status='approved_pum';item.history.push({date:new Date().toISOString(),action:'Disetujui PUM — sudah sesuai',by:currentUser?.nama||'PUM',note})}
+  else{item.status='rejected_pum';item.history.push({date:new Date().toISOString(),action:'Ditolak PUM',by:currentUser?.nama||'PUM',note})}
+  saveData(data);refreshAll();
+}
+function markPaidPUM(id){
+  const item=data.find(d=>d.id===id);if(!item)return;
+  const tglBayar=document.getElementById('pay-date-'+id)?.value;
+  if(!tglBayar){showAlert('Wajib isi tanggal pembayaran.');return}
+  const note=document.getElementById('pay-note-'+id)?.value||'';
+  item.payment={status:'paid',tanggal:tglBayar,catatan:note,oleh:currentUser?.nama||'PUM'};
+  item.status='paid';
+  item.history.push({date:new Date().toISOString(),action:'Dibayar oleh PUM',by:currentUser?.nama||'PUM',note:'Tanggal bayar: '+tglBayar+(note?' — '+note:'')});
+  saveData(data);refreshAll();
+}
+
+// PEMBAYARAN
+function refreshBayar(){
+  const items=data.filter(d=>d.status==='approved_pum'),c=document.getElementById('list-bayar');
+  if(!items.length){c.innerHTML='<div class="card"><div class="card-body"><div class="empty"><div class="empty-icon">💰</div><p>Tidak ada pengajuan siap dibayar</p></div></div></div>';return}
+  c.innerHTML=items.map(d=>'<div class="card"><div class="card-body"><div class="pay-card"><div class="pay-info"><div class="pay-label">Total Pembayaran</div><div class="pay-title">'+d.perihal+' — '+d.nomorST+'</div><div style="font-size:12px;color:#065f46;margin-top:4px">'+d.pengaju+' · 📍 '+(d.lokasi||'')+' · '+d.pegawai.length+' pegawai · '+d.jumlahHari+' hari</div></div><div class="pay-amount">'+formatRp(d.totalBiaya)+'</div></div><div class="form-group"><label>Catatan Pembayaran (opsional)</label><input type="text" id="pay-note-'+d.id+'" placeholder="Misal: Transfer via BRI / No. SP2D"></div><div class="btn-group"><button class="btn btn-success" onclick="markPaid(\''+d.id+'\')">Tandai Sudah Dibayar</button><button class="btn btn-outline" onclick="showDetail(\''+d.id+'\')">Detail</button></div></div></div>').join('');
+}
+function markPaid(id){
+  const item=data.find(d=>d.id===id);if(!item)return;
+  const note=document.getElementById('pay-note-'+id)?.value||'';
+  item.payment={status:'paid',tanggal:new Date().toISOString(),catatan:note,oleh:currentUser?.nama||'Bendahara'};
+  item.status='paid';item.history.push({date:new Date().toISOString(),action:'Pembayaran selesai',by:currentUser?.nama||'Bendahara',note});
+  saveData(data);refreshAll();
+}
+
+// KELOLA USER
+function refreshKelolaUser(){
+  registeredUsers=loadUsers();
+  const tb=document.getElementById('tb-users');if(!tb)return;
+  const sel=document.getElementById('reg-nama');
+  if(sel){sel.innerHTML='<option value="">— Pilih pegawai —</option>'+EMPLOYEES.map(e=>'<option value="'+e.nip+'">'+e.nama+'</option>').join('')}
+  if(!registeredUsers.length){tb.innerHTML='<tr><td colspan="5" style="text-align:center;color:var(--muted)">Belum ada user terdaftar</td></tr>';return}
+  tb.innerHTML=registeredUsers.map((u,i)=>'<tr><td>'+(i+1)+'</td><td>'+u.nama+'</td><td>'+u.nip+'</td><td><span class="status status-'+(u.role==='admin'?'paid':u.role==='ppk'?'approved':'warning')+'">'+u.role.toUpperCase()+'</span></td><td><button class="btn btn-outline" style="font-size:11px;padding:4px 10px" onclick="resetPassword(\''+u.nip+'\',\''+u.role+'\')">🔑 Reset</button> <button class="btn btn-danger" style="font-size:11px;padding:4px 10px" onclick="removeUser(\''+u.nip+'\',\''+u.role+'\')">🗑️ Hapus</button></td></tr>').join('');
+}
+function registerUser(){
+  const nip=document.getElementById('reg-nama').value;
+  const role=document.getElementById('reg-role').value;
+  const pwd=document.getElementById('reg-password').value;
+  if(!nip){showAlert('Pilih pegawai terlebih dahulu');return}
+  if(!role){showAlert('Pilih role');return}
+  if(!pwd||pwd.length<4){showAlert('Password minimal 4 karakter');return}
+  registeredUsers=loadUsers();
+  if(registeredUsers.some(u=>u.nip===nip&&u.role===role)){showAlert('User ini sudah terdaftar sebagai '+role.toUpperCase());return}
+  const emp=EMPLOYEES.find(e=>e.nip===nip);
+  registeredUsers.push({nip:nip,nama:emp.nama,role:role,password:pwd});
+  saveUsers(registeredUsers);
+  document.getElementById('reg-nama').value='';document.getElementById('reg-role').value='';document.getElementById('reg-password').value='';
+  refreshKelolaUser();
+  showAlert('Berhasil mendaftarkan '+emp.nama+' sebagai '+role.toUpperCase());
+}
+function removeUser(nip,role){
+  showConfirm('Hapus user ini dari role '+role.toUpperCase()+'?',function(){
+    registeredUsers=loadUsers();
+    registeredUsers=registeredUsers.filter(u=>!(u.nip===nip&&u.role===role));
+    saveUsers(registeredUsers);refreshKelolaUser();
+    showAlert('User berhasil dihapus','Berhasil');
+  },'Hapus User','🗑️ Ya, Hapus');
+}
+function resetPassword(nip,role){
+  document.querySelector('#modal-edit .modal-header h3').textContent='🔑 Reset Password — '+role.toUpperCase();
+  document.getElementById('modal-edit-body').innerHTML=
+    '<div class="form-group"><label>Password Baru (min 4 karakter)</label><input type="text" id="reset-pwd-input" class="form-control" placeholder="Masukkan password baru"></div>'+
+    '<div class="btn-group" style="margin-top:12px"><button class="btn btn-success" style="padding:10px 20px" onclick="doResetPwd(\''+nip+'\',\''+role+'\')">💾 Simpan</button><button class="btn btn-outline" style="padding:10px 20px" onclick="closeModal(\'modal-edit\')">Batal</button></div>';
+  document.getElementById('modal-edit').classList.add('show');
+}
+function doResetPwd(nip,role){
+  const newPwd=document.getElementById('reset-pwd-input').value;
+  if(!newPwd||newPwd.length<4){showAlert('Password minimal 4 karakter');return}
+  registeredUsers=loadUsers();
+  const u=registeredUsers.find(u=>u.nip===nip&&u.role===role);
+  if(u){u.password=newPwd;saveUsers(registeredUsers);closeModal('modal-edit');showAlert('Password berhasil direset','Berhasil')}
+}
+
+// RIWAYAT
+function refreshRiwayat(){
+  const isAdmin=currentUser?.role==='admin',isPPK=currentUser?.role==='ppk',isPUM=currentUser?.role==='pum';
+  const all=(isAdmin||isPPK||isPUM)?data:data.filter(d=>d.pengajuNip===currentUser?.nip);
+  const s=document.getElementById('stats-riwayat');
+  const totalBiaya=all.filter(d=>d.status==='paid').reduce((a,d)=>a+d.totalBiaya,0);
+  s.innerHTML='<div class="stat stat-total"><div class="num">'+all.length+'</div><div class="lbl">Total</div></div><div class="stat stat-approved"><div class="num">'+all.filter(d=>d.status==='paid').length+'</div><div class="lbl">Dibayar</div></div><div class="stat stat-pending"><div class="num">'+all.filter(d=>!['paid','rejected_ppk','rejected_pum'].includes(d.status)).length+'</div><div class="lbl">Proses</div></div><div class="stat stat-total"><div class="num" style="font-size:18px">'+formatRp(totalBiaya)+'</div><div class="lbl">Total Dibayar</div></div>';
+  const q=(document.getElementById('search-riwayat')?.value||'').toLowerCase();
+  const filtered=all.filter(d=>!q||(d.pengaju+d.nomorST+d.perihal+(d.lokasi||'')).toLowerCase().includes(q));
+  const tb=document.getElementById('tb-riwayat');
+  if(!filtered.length){tb.innerHTML='<tr><td colspan="10" style="text-align:center;color:var(--text-tertiary);padding:40px">Belum ada data</td></tr>';return}
+  const adm=currentUser?.role==='admin';
+  tb.innerHTML=filtered.slice().reverse().map((d,i)=>'<tr><td>'+(filtered.length-i)+'</td><td><strong>'+d.nomorST+'</strong></td><td>'+d.pengaju+'</td><td>'+d.perihal+'</td><td>'+(d.lokasi||'-')+'</td><td>'+(d.jenis==='dalam_kota'?'DK':'LK')+'</td><td>'+formatDate(d.tglMulai)+'</td><td class="rp">'+(d.totalBiaya?formatRp(d.totalBiaya):'-')+'</td><td>'+statusBadge(d.status)+'</td><td><button class="btn btn-sm btn-outline" onclick="showDetail(\''+d.id+'\')">Detail</button>'+(adm?' <button class="btn btn-sm btn-primary" onclick="editPengajuan(\''+d.id+'\')">✏️</button> <button class="btn btn-sm btn-danger" onclick="deletePengajuan(\''+d.id+'\')">🗑️</button>':'')+'</td></tr>').join('');
+}
+document.getElementById('search-riwayat')?.addEventListener('input',refreshRiwayat);
+
+// MODAL DETAIL
+function showDetail(id){
+  const d=data.find(x=>x.id===id);if(!d)return;
+  const isLK=d.jenis==='luar_kota';
+  const steps=[
+    {label:'Pengajuan',done:true},
+    {label:'PPK',done:['approved_ppk','pending_detail','pending_pum','approved_pum','paid'].includes(d.status),rejected:d.status==='rejected_ppk',active:d.status==='pending_ppk'},
+    {label:'Biaya Tambahan',done:['pending_pum','approved_pum','paid'].includes(d.status),active:d.status==='pending_detail'},
+    {label:'PUM',done:['approved_pum','paid'].includes(d.status),rejected:d.status==='rejected_pum',active:d.status==='pending_pum'},
+    {label:'Pembayaran',done:d.status==='paid',active:d.status==='approved_pum'}
+  ];
+  let h='<div class="workflow-bar">'+steps.map(s=>'<div class="wf-step '+(s.done?'done':'')+' '+(s.active?'active':'')+' '+(s.rejected?'rejected':'')+'">'+s.label+'</div>').join('')+'</div>'+
+    '<div class="detail-grid"><div class="detail-item"><div class="label">No. ST</div><div class="value">'+d.nomorST+'</div></div><div class="detail-item"><div class="label">Tanggal ST</div><div class="value">'+formatDate(d.tanggalST)+'</div></div><div class="detail-item"><div class="label">Pengaju</div><div class="value">'+d.pengaju+'</div></div><div class="detail-item"><div class="label">Perihal</div><div class="value">'+d.perihal+'</div></div><div class="detail-item"><div class="label">Lokasi Dinas</div><div class="value">📍 '+(d.lokasi||'-')+'</div></div><div class="detail-item"><div class="label">Jenis</div><div class="value">'+(isLK?'Luar Kota':'Dalam Kota')+'</div></div><div class="detail-item"><div class="label">Tanggal Dinas</div><div class="value">'+formatDate(d.tglMulai)+' s.d. '+formatDate(d.tglSelesai)+'</div></div><div class="detail-item"><div class="label">Jumlah Hari</div><div class="value">'+d.jumlahHari+' hari</div></div><div class="detail-item"><div class="label">File ST</div><div class="value">'+d.fileName+' (TTE ✅)</div></div><div class="detail-item"><div class="label">Sumber Data</div><div class="value">🤖 Analisa Otomatis</div></div><div class="detail-item full-span"><div class="label">Pegawai ('+d.pegawai.length+' orang)</div><div class="value">'+d.pegawai.join(', ')+'</div></div></div>';
+  if(d.totalBiaya){
+    h+='<div class="section-title">Rincian Biaya</div><div class="cost-section"><div class="cost-row"><span class="cost-label">'+(isLK?'Uang Harian':'Transport Lokal')+' — otomatis ('+d.pegawai.length+' org × '+d.jumlahHari+' hari × '+formatRp(isLK?300000:170000)+')</span><span class="rp">'+formatRp(isLK?d.biayaUangHarian:d.biayaTransportLokal)+'</span></div>';
+    (d.biayaTambahan||[]).forEach(bt=>{h+='<div class="cost-row"><span class="cost-label">'+bt.jenis+(bt.keterangan?' ('+bt.keterangan+')':'')+'</span><span class="rp">'+formatRp(bt.nominal)+'</span></div>'});
+    h+='<div class="cost-row"><span>TOTAL BIAYA</span><span class="rp">'+formatRp(d.totalBiaya)+'</span></div></div>';
+  }
+  h+='<div class="section-title">Riwayat Proses</div><div class="timeline">';
+  (d.history||[]).forEach((x,i)=>{
+    const last=i===d.history.length-1,rej=x.action.includes('Ditolak');
+    h+='<div class="timeline-item '+(rej?'rejected':!last?'done':'active')+'"><div class="tl-title">'+x.action+'</div><div class="tl-date">'+formatDate(x.date)+' — oleh '+x.by+'</div>'+(x.note?'<div class="tl-note">'+x.note+'</div>':'')+'</div>';
+  });
+  h+='</div>';
+  if(d.status==='rejected_ppk'||d.status==='rejected_pum')
+    h+='<div class="alert alert-danger" style="margin-top:16px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg><span><strong>Ditolak.</strong> '+(d.status==='rejected_ppk'?'Silakan perbaiki dan ajukan ulang.':'Alasan: '+(d.pum?.alasan||'-'))+'</span></div>';
+  if(d.status==='paid')
+    h+='<div class="alert alert-success" style="margin-top:16px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span><strong>Pembayaran selesai!</strong> '+(d.payment?.catatan?'Catatan: '+d.payment.catatan:'')+'</span></div>';
+  if(currentUser?.role==='admin')
+    h+='<div class="btn-group" style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border)"><button class="btn btn-primary" onclick="closeModal(\'modal-detail\');editPengajuan(\''+d.id+'\')">✏️ Edit Pengajuan</button><button class="btn btn-danger" onclick="deletePengajuan(\''+d.id+'\')">🗑️ Hapus Pengajuan</button></div>';
+  document.getElementById('modal-title').textContent='Detail — '+d.nomorST;
+  document.getElementById('modal-body').innerHTML=h;
+  document.getElementById('modal-detail').classList.add('show');
+}
+function closeModal(id){document.getElementById(id).classList.remove('show')}
+document.querySelectorAll('.modal-overlay').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('show')})});
+
+// CUSTOM ALERT & CONFIRM (works inside iframe)
+function showAlert(msg,title){
+  document.getElementById('alert-title').textContent=title||'Info';
+  document.getElementById('alert-msg').textContent=msg;
+  document.getElementById('modal-alert').classList.add('show');
+}
+function showConfirm(msg,onYes,title,btnText){
+  document.getElementById('confirm-title').textContent=title||'Konfirmasi';
+  document.getElementById('confirm-msg').textContent=msg;
+  const btn=document.getElementById('confirm-yes');
+  btn.textContent=btnText||'Ya, Lanjutkan';
+  btn.onclick=function(){closeModal('modal-confirm');onYes()};
+  document.getElementById('modal-confirm').classList.add('show');
+}
+
+// ADMIN: DELETE & EDIT PENGAJUAN
+function deletePengajuan(id){
+  const item=data.find(d=>String(d.id)===String(id));
+  if(!item){showAlert('Data tidak ditemukan');return}
+  showConfirm('Yakin ingin MENGHAPUS pengajuan "'+item.perihal+'" ('+item.nomorST+')?\n\nData tidak bisa dikembalikan.',function(){
+    data=data.filter(d=>String(d.id)!==String(id));
+    saveData(data);closeModal('modal-detail');refreshAll();
+    showAlert('Pengajuan berhasil dihapus.','Berhasil');
+  },'Hapus Pengajuan','🗑️ Ya, Hapus');
+}
+function editPengajuan(id){
+  const d=data.find(x=>x.id===id);if(!d)return;
+  const isLK=d.jenis==='luar_kota';
+  const statusOpts=[
+    {v:'pending_ppk',l:'Menunggu PPK'},{v:'approved_ppk',l:'Disetujui PPK'},
+    {v:'pending_detail',l:'Isi Biaya Tambahan'},{v:'pending_pum',l:'Menunggu PUM'},
+    {v:'approved_pum',l:'Sudah Sesuai'},{v:'paid',l:'Sudah Dibayar'},
+    {v:'rejected_ppk',l:'Ditolak PPK'},{v:'rejected_pum',l:'Ditolak PUM'}
+  ];
+  let h='<div class="form-group"><label>Nomor ST</label><input type="text" id="edit-nomorST" value="'+d.nomorST+'"></div>'+
+    '<div class="form-group"><label>Tanggal ST</label><input type="date" id="edit-tglST" value="'+(d.tanggalST||'')+'"></div>'+
+    '<div class="form-group"><label>Perihal</label><input type="text" id="edit-perihal" value="'+(d.perihal||'')+'"></div>'+
+    '<div class="form-group"><label>Lokasi</label><input type="text" id="edit-lokasi" value="'+(d.lokasi||'')+'"></div>'+
+    '<div class="form-row"><div class="form-group"><label>Jenis</label><select id="edit-jenis"><option value="dalam_kota" '+(d.jenis==='dalam_kota'?'selected':'')+'>Dalam Kota</option><option value="luar_kota" '+(d.jenis==='luar_kota'?'selected':'')+'>Luar Kota</option></select></div>'+
+    '<div class="form-group"><label>Status</label><select id="edit-status">'+statusOpts.map(o=>'<option value="'+o.v+'" '+(d.status===o.v?'selected':'')+'>'+o.l+'</option>').join('')+'</select></div></div>'+
+    '<div class="form-row"><div class="form-group"><label>Tanggal Mulai</label><input type="date" id="edit-tglMulai" value="'+(d.tglMulai||'')+'"></div>'+
+    '<div class="form-group"><label>Tanggal Selesai</label><input type="date" id="edit-tglSelesai" value="'+(d.tglSelesai||'')+'"></div></div>'+
+    '<div class="form-group"><label>Total Biaya (Rp)</label><input type="number" id="edit-totalBiaya" value="'+(d.totalBiaya||0)+'"></div>'+
+    '<div class="form-group"><label>Pegawai (pisahkan dengan koma)</label><textarea id="edit-pegawai" style="min-height:60px">'+(d.pegawai||[]).join(', ')+'</textarea></div>'+
+    '<div class="btn-group" style="margin-top:16px"><button class="btn btn-success" style="padding:12px 24px" onclick="saveEditPengajuan(\''+d.id+'\')">💾 Simpan Perubahan</button><button class="btn btn-outline" onclick="closeModal(\'modal-edit\')">Batal</button></div>';
+  document.getElementById('modal-edit-body').innerHTML=h;
+  document.getElementById('modal-edit').classList.add('show');
+}
+function saveEditPengajuan(id){
+  const d=data.find(x=>x.id===id);if(!d)return;
+  d.nomorST=document.getElementById('edit-nomorST').value||d.nomorST;
+  d.tanggalST=document.getElementById('edit-tglST').value||d.tanggalST;
+  d.perihal=document.getElementById('edit-perihal').value||d.perihal;
+  d.lokasi=document.getElementById('edit-lokasi').value||d.lokasi;
+  d.jenis=document.getElementById('edit-jenis').value;
+  const newStatus=document.getElementById('edit-status').value;
+  if(newStatus!==d.status){
+    d.history.push({date:new Date().toISOString(),action:'Status diubah Admin: '+d.status+' → '+newStatus,by:currentUser?.nama||'Admin',note:''});
+    d.status=newStatus;
+  }
+  d.tglMulai=document.getElementById('edit-tglMulai').value||d.tglMulai;
+  d.tglSelesai=document.getElementById('edit-tglSelesai').value||d.tglSelesai;
+  const m=new Date(d.tglMulai),s=new Date(d.tglSelesai);
+  d.jumlahHari=Math.max(1,Math.round((s-m)/(1000*60*60*24))+1);
+  d.totalBiaya=parseInt(document.getElementById('edit-totalBiaya').value)||d.totalBiaya;
+  const pegStr=document.getElementById('edit-pegawai').value;
+  if(pegStr)d.pegawai=pegStr.split(',').map(p=>p.trim()).filter(p=>p);
+  saveData(data);closeModal('modal-edit');refreshAll();
+  showAlert('Pengajuan berhasil diperbarui.','Berhasil');
+}
+
+initLogin();
+</script>
+</body>
+</html>
