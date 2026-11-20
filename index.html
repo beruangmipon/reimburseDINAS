@@ -285,11 +285,22 @@ tr:hover td{background:#f8faff}
 .analysis-result-header .ar-badge{margin-left:auto;padding:3px 10px;border-radius:12px;background:#059669;color:#fff;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px}
 .analysis-result-body{padding:20px}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.1/firebase-app-compat.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.1/firebase-firestore-compat.min.js"></script>
 </head>
 <body>
 
+<!-- LOADING OVERLAY -->
+<div id="loading-overlay" style="position:fixed;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,#3a3f4a,#5a5f6b);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-family:Inter,sans-serif">
+  <div style="font-size:48px;margin-bottom:16px">✈️</div>
+  <div style="font-size:18px;font-weight:700;margin-bottom:8px">Reimburse Perjalanan Dinas</div>
+  <div style="font-size:13px;opacity:.7;margin-bottom:24px">Menghubungkan ke server...</div>
+  <div style="width:40px;height:40px;border:3px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:spin 1s linear infinite"></div>
+  <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+</div>
+
 <!-- LOGIN SCREEN -->
-<div id="login-screen" class="login-screen">
+<div id="login-screen" class="login-screen" style="display:none">
   <div class="login-card">
     <div class="login-header">
       <div class="login-icon">📋</div>
@@ -701,33 +712,60 @@ const EMPLOYEES=[
 
 // ST_TEMPLATES removed — form is now fully manual
 
-const STORE_KEY='reimburse_dinas_v5';
+// Firebase Init
+const firebaseConfig={
+  apiKey:"AIzaSyDhI6fRMhpzZEsIL2SwYG8Qs8Yl1lGHEr8",
+  authDomain:"reimbursedinas.firebaseapp.com",
+  projectId:"reimbursedinas",
+  storageBucket:"reimbursedinas.firebasestorage.app",
+  messagingSenderId:"874779635200",
+  appId:"1:874779635200:web:825c741ed868d4807d72e5"
+};
+firebase.initializeApp(firebaseConfig);
+const db=firebase.firestore();
+
 const SESSION_KEY='reimburse_session';
-const USERS_KEY='reimburse_users_v1';
-function loadData(){try{return JSON.parse(localStorage.getItem(STORE_KEY))||[]}catch(e){return[]}}
-function saveData(d){try{localStorage.setItem(STORE_KEY,JSON.stringify(d))}catch(e){}}
+let _firestoreReady=false;
+
+// --- Firestore: Pengajuan ---
+function saveData(d){
+  db.collection('pengajuan').doc('all').set({items:JSON.parse(JSON.stringify(d))})
+    .catch(e=>console.error('saveData error:',e));
+}
+
+// --- Firestore: Users ---
+function saveUsers(u){
+  db.collection('config').doc('users').set({items:JSON.parse(JSON.stringify(u))})
+    .catch(e=>console.error('saveUsers error:',e));
+}
+function loadUsers(){return registeredUsers||[]}
+
+// Session tetap localStorage (per-browser)
 function getSession(){try{return JSON.parse(localStorage.getItem(SESSION_KEY))||null}catch(e){return null}}
 function setSession(s){localStorage.setItem(SESSION_KEY,JSON.stringify(s))}
 function clearSession(){localStorage.removeItem(SESSION_KEY)}
-function loadUsers(){try{return JSON.parse(localStorage.getItem(USERS_KEY))||[]}catch(e){return[]}}
-function saveUsers(u){localStorage.setItem(USERS_KEY,JSON.stringify(u))}
-// Initialize default admin if none exists
-function initDefaultAdmin(){
-  let users=loadUsers();
+
+// Initialize default admin if none exists in Firestore
+async function initDefaultAdmin(){
   const defaults=[
     {nip:'198306012009121001',nama:'Nurhadi Panca Wibowo',role:'admin',password:'admin123'},
     {nip:'198306012009121001',nama:'Nurhadi Panca Wibowo',role:'ppk',password:'ppk123'},
     {nip:'199011102020122017',nama:'Intan Purnama',role:'pum',password:'pum123'}
   ];
-  let changed=false;
-  defaults.forEach(df=>{
-    if(!users.some(u=>u.nip===df.nip&&u.role===df.role)){users.push(df);changed=true}
-  });
-  if(changed)saveUsers(users);
-  return users;
+  try{
+    const doc=await db.collection('config').doc('users').get();
+    let users=doc.exists?(doc.data().items||[]):[];
+    let changed=false;
+    defaults.forEach(df=>{
+      if(!users.some(u=>u.nip===df.nip&&u.role===df.role)){users.push(df);changed=true}
+    });
+    if(changed||!doc.exists) await db.collection('config').doc('users').set({items:users});
+    return users;
+  }catch(e){console.error('initDefaultAdmin error:',e);return defaults}
 }
-let registeredUsers=initDefaultAdmin();
-let data=loadData();
+
+let registeredUsers=[];
+let data=[];
 let currentUser=null;
 let pendingAnalysis=null; // holds analysis result before submit
 let pendingTambahan=[]; // additional costs before submit
@@ -750,8 +788,12 @@ function daysBetween(a,b){return Math.max(1,Math.round((new Date(b)-new Date(a))
 
 // LOGIN
 function initLogin(){
+  document.getElementById('loading-overlay').style.display='none';
+  document.getElementById('login-screen').style.display='flex';
   const sel=document.getElementById('login-nama');
-  EMPLOYEES.forEach(e=>{const o=document.createElement('option');o.value=e.nip;o.textContent=e.nama;sel.appendChild(o)});
+  if(!sel.options.length||sel.options.length<=1){
+    EMPLOYEES.forEach(e=>{const o=document.createElement('option');o.value=e.nip;o.textContent=e.nama;sel.appendChild(o)});
+  }
   const session=getSession();
   if(session){currentUser=session;showApp()}
 }
@@ -1434,7 +1476,40 @@ function saveEditPengajuan(id){
   showAlert('Pengajuan berhasil diperbarui.','Berhasil');
 }
 
-initLogin();
+// --- Firebase Realtime Listeners + Async Init ---
+let _firebaseConnected=false;
+async function firebaseInit(){
+  try{
+    // Load users from Firestore
+    registeredUsers=await initDefaultAdmin();
+    _firebaseConnected=true;
+
+    // Realtime listener: pengajuan
+    db.collection('pengajuan').doc('all').onSnapshot(doc=>{
+      if(doc.exists){data=doc.data().items||[]}else{data=[]}
+      if(_firestoreReady&&currentUser)refreshAll();
+    });
+
+    // Realtime listener: users
+    db.collection('config').doc('users').onSnapshot(doc=>{
+      if(doc.exists){registeredUsers=doc.data().items||[]}
+      if(_firestoreReady&&currentUser&&currentUser.role==='admin'){
+        const tab=document.querySelector('.tab-btn.active');
+        if(tab&&tab.textContent.includes('Kelola'))refreshKelolaUser();
+      }
+    });
+
+    // Wait a moment for first snapshot
+    await new Promise(r=>setTimeout(r,600));
+    _firestoreReady=true;
+    initLogin();
+  }catch(e){
+    console.error('Firebase error:',e);
+    const ov=document.getElementById('loading-overlay');
+    if(ov)ov.innerHTML='<div style="text-align:center;padding:32px"><div style="font-size:48px;margin-bottom:16px">⚠️</div><div style="font-size:18px;font-weight:700;margin-bottom:12px">Tidak Dapat Terhubung ke Server</div><div style="font-size:13px;opacity:.8;max-width:400px;line-height:1.6;margin-bottom:20px">Aplikasi ini membutuhkan koneksi Firebase.<br>Silakan akses melalui GitHub Pages:</div><a href="https://beruangmipon.github.io/reimburse-perjalanan-dinas/" style="color:#fff;background:rgba(255,255,255,.2);padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;display:inline-block">Buka di GitHub Pages</a><div style="font-size:11px;opacity:.5;margin-top:16px">'+e.message+'</div></div>';
+  }
+}
+firebaseInit();
 </script>
 </body>
 </html>
