@@ -483,7 +483,7 @@ tr:hover td{background:#f8faff}
 <!-- PENGAJUAN -->
 <div class="panel" id="panel-pengajuan">
   <div class="card">
-    <div class="card-header"><div class="card-header-icon blue">📝</div><div><h3>Upload Surat Tugas</h3><div class="subtitle">Upload file ST (PDF) yang sudah di-TTE, lalu isi data sesuai isi ST</div></div></div>
+    <div class="card-header"><div class="card-header-icon blue">📝</div><div><h3>Upload Surat Tugas</h3><div class="subtitle">Upload file ST (PDF) yang sudah ditandatangani (TTE atau Manual), lalu isi data sesuai isi ST</div></div></div>
     <div class="card-body">
       <div id="warnings"></div>
       <div class="form-group">
@@ -495,7 +495,7 @@ tr:hover td{background:#f8faff}
           <div class="file-name" id="file-name" style="display:none"></div>
         </div>
       </div>
-      <div class="checkbox-group"><input type="checkbox" id="f-tte"><label for="f-tte">Surat Tugas ini sudah ditandatangani secara elektronik (TTE)</label></div>
+      <div class="checkbox-group"><input type="checkbox" id="f-tte"><label for="f-tte">Surat Tugas ini sudah ditandatangani secara elektronik (TTE) atau Manual</label></div>
 
       <!-- Loading placeholder (hidden) -->
       <div id="analysis-loading" style="display:none"></div>
@@ -1171,12 +1171,22 @@ function renderCostSummary(){
   document.getElementById('cost-summary-rows').innerHTML=rows;
 }
 
+// READ FILE AS BASE64
+function readFileAsBase64(file){
+  return new Promise((resolve,reject)=>{
+    const reader=new FileReader();
+    reader.onload=()=>resolve(reader.result);
+    reader.onerror=()=>reject(reader.error);
+    reader.readAsDataURL(file);
+  });
+}
+
 // SUBMIT
-function submitPengajuan(){
+async function submitPengajuan(){
   if(!currentUser||!pendingAnalysis)return;
   const fi=document.getElementById('f-file');
   if(!document.getElementById('f-tte').checked){
-    document.getElementById('warnings').innerHTML='<div class="alert alert-danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg><span>Surat Tugas harus sudah di-TTE</span></div>';return;
+    document.getElementById('warnings').innerHTML='<div class="alert alert-danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg><span>Surat Tugas harus sudah ditandatangani (TTE atau Manual)</span></div>';return;
   }
   // Read from editable form fields
   const nomorST=document.getElementById('f-nomorST').value.trim();
@@ -1217,12 +1227,15 @@ function submitPengajuan(){
 
   const b=getFormBiaya();
   const totalTambahan=pendingTambahan.reduce((s,t)=>s+t.nominal,0);
+  // Read file as base64
+  let fileData='';
+  try{fileData=await readFileAsBase64(fi.files[0])}catch(e){console.error('File read error:',e)}
   data.push({
     id:genId(),pengaju:currentUser.nama,pengajuNip:currentUser.nip,
     nomorST,tanggalST,perihal,lokasi,
     tglMulai,tglSelesai,jenis,
     pegawai:[...selectedPegawai],jumlahHari:b.jumlahHari,
-    fileName:fi.files[0].name,isTTE:true,status:'pending_ppk',
+    fileName:fi.files[0].name,fileData:fileData,isTTE:true,status:'pending_ppk',
     tanggalSubmit:new Date().toISOString(),
     biayaTransportLokal:b.biayaTL,biayaUangHarian:b.biayaHarian,
     biayaTambahan:[...pendingTambahan],
@@ -1299,8 +1312,44 @@ function refreshPPK(){
   if(!items.length){c.innerHTML='<div class="card"><div class="card-body"><div class="empty"><div class="empty-icon">✅</div><p>Tidak ada pengajuan menunggu persetujuan PPK</p></div></div></div>';return}
   c.innerHTML=items.map(d=>{
     const isLK=d.jenis==='luar_kota';
-    return '<div class="approval-card"><div class="ac-top"><div class="ac-icon pending">📋</div><div class="ac-info"><div class="ac-title">'+d.perihal+'</div><div class="ac-meta"><span>'+d.pengaju+'</span><span>'+d.nomorST+'</span><span>📍 '+(d.lokasi||'-')+'</span><span>'+formatDate(d.tglMulai)+' — '+formatDate(d.tglSelesai)+'</span></div></div>'+statusBadge(d.status)+'</div><div class="ac-details"><div class="ac-detail"><div class="label">Jenis</div><div class="value">'+(isLK?'Luar Kota':'Dalam Kota')+'</div></div><div class="ac-detail"><div class="label">Lokasi</div><div class="value">'+(d.lokasi||'-')+'</div></div><div class="ac-detail"><div class="label">Hari</div><div class="value">'+d.jumlahHari+' hari</div></div><div class="ac-detail"><div class="label">Pegawai</div><div class="value">'+d.pegawai.length+' orang</div></div><div class="ac-detail"><div class="label">Total Biaya</div><div class="value rp">'+formatRp(d.totalBiaya)+'</div></div><div class="ac-detail"><div class="label">File ST</div><div class="value">TTE ✅</div></div></div><div class="ac-actions"><div class="form-group"><label>Catatan PPK</label><textarea id="ppk-note-'+d.id+'" placeholder="Tulis catatan..." style="min-height:50px"></textarea></div><div class="btn-wrap"><button class="btn btn-success" onclick="ppkAction(\''+d.id+'\',\'approve\')">Setujui</button><button class="btn btn-danger" onclick="ppkAction(\''+d.id+'\',\'reject\')">Tolak</button><button class="btn btn-outline" onclick="showDetail(\''+d.id+'\')">Detail</button></div></div></div>';
+    const rateLabel=isLK?'Uang Harian':'Transport Lokal';
+    const biayaBase=isLK?(d.biayaUangHarian||0):(d.biayaTransportLokal||0);
+    const biayaTambahan=(d.biayaTambahan||[]).reduce((s,t)=>s+t.nominal,0);
+    const pegawaiList=(d.pegawai||[]).map((p,i)=>'<span style="display:inline-block;padding:3px 10px;margin:2px;background:var(--primary-bg);border-radius:12px;font-size:11px;font-weight:600;color:var(--primary-dark)">'+(i+1)+'. '+p+'</span>').join('');
+    const fileBtn=d.fileData?'<button class="btn btn-sm btn-primary" onclick="viewFileST(\''+d.id+'\')">📄 Lihat ST</button>':'<span style="color:var(--text-tertiary);font-size:12px">File tidak tersedia</span>';
+    let tambahanRows='';
+    if(d.biayaTambahan&&d.biayaTambahan.length){tambahanRows=d.biayaTambahan.map(t=>'<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:12px"><span style="color:var(--text-secondary)">'+t.jenis+(t.keterangan?' ('+t.keterangan+')':'')+'</span><span class="rp" style="font-weight:600">'+formatRp(t.nominal)+'</span></div>').join('')}
+    return '<div class="approval-card"><div class="ac-top"><div class="ac-icon pending">📋</div><div class="ac-info"><div class="ac-title">'+d.perihal+'</div><div class="ac-meta"><span>'+d.pengaju+'</span><span>'+d.nomorST+'</span><span>📍 '+(d.lokasi||'-')+'</span><span>'+formatDate(d.tglMulai)+' — '+formatDate(d.tglSelesai)+'</span></div></div>'+statusBadge(d.status)+'</div>'+
+    '<div class="ac-details"><div class="ac-detail"><div class="label">No. Surat Tugas</div><div class="value" style="font-weight:700">'+d.nomorST+'</div></div><div class="ac-detail"><div class="label">Tanggal ST</div><div class="value">'+formatDate(d.tanggalST)+'</div></div><div class="ac-detail"><div class="label">Jenis</div><div class="value">'+(isLK?'🏙️ Luar Kota':'🏢 Dalam Kota')+'</div></div><div class="ac-detail"><div class="label">Lokasi</div><div class="value">📍 '+(d.lokasi||'-')+'</div></div><div class="ac-detail"><div class="label">Tanggal Dinas</div><div class="value">'+formatDate(d.tglMulai)+' s.d. '+formatDate(d.tglSelesai)+'</div></div><div class="ac-detail"><div class="label">Jumlah Hari</div><div class="value">'+d.jumlahHari+' hari</div></div></div>'+
+    '<div style="padding:0 24px 16px"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-tertiary);margin-bottom:8px">Pegawai ('+d.pegawai.length+' orang)</div><div style="display:flex;flex-wrap:wrap;gap:2px">'+pegawaiList+'</div></div>'+
+    '<div style="padding:0 24px 16px"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-tertiary);margin-bottom:8px">Rincian Biaya</div><div style="background:var(--border-light);border-radius:8px;padding:12px"><div style="display:flex;justify-content:space-between;padding:4px 0;font-size:12px"><span style="color:var(--text-secondary)">'+rateLabel+'</span><span class="rp" style="font-weight:600">'+formatRp(biayaBase)+'</span></div>'+tambahanRows+'<div style="display:flex;justify-content:space-between;padding:8px 0 0;margin-top:6px;border-top:2px solid var(--border);font-size:13px;font-weight:800"><span>TOTAL</span><span class="rp" style="color:var(--primary)">'+formatRp(d.totalBiaya)+'</span></div></div></div>'+
+    '<div style="padding:0 24px 16px"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-tertiary);margin-bottom:8px">File Surat Tugas</div><div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--primary-bg);border-radius:8px;border:1px solid var(--border)"><span style="font-size:12px;font-weight:600;color:var(--text)">📎 '+d.fileName+'</span><span style="font-size:10px;padding:3px 8px;background:var(--success-light);color:var(--success);border-radius:10px;font-weight:700">Sudah Ditandatangani ✅</span><span style="margin-left:auto">'+fileBtn+'</span></div></div>'+
+    '<div class="ac-actions"><div class="form-group"><label>Catatan PPK</label><textarea id="ppk-note-'+d.id+'" placeholder="Tulis catatan verifikasi..." style="min-height:50px"></textarea></div><div class="btn-wrap"><button class="btn btn-success" onclick="ppkAction(\''+d.id+'\',\'approve\')">✅ Setujui</button><button class="btn btn-danger" onclick="ppkAction(\''+d.id+'\',\'reject\')">❌ Tolak</button><button class="btn btn-outline" onclick="showDetail(\''+d.id+'\')">📋 Detail</button></div></div></div>';
   }).join('');
+}
+
+function viewFileST(id){
+  const item=data.find(d=>d.id===id);
+  if(!item||!item.fileData){showAlert('File Surat Tugas tidak tersedia.');return}
+  // Show file in modal preview
+  const isImage=item.fileData.startsWith('data:image');
+  const isPDF=item.fileData.startsWith('data:application/pdf');
+  let previewContent='';
+  if(isPDF){previewContent='<iframe src="'+item.fileData+'" style="width:100%;height:70vh;border:none;border-radius:8px"></iframe>'}
+  else if(isImage){previewContent='<img src="'+item.fileData+'" style="max-width:100%;max-height:70vh;border-radius:8px;display:block;margin:0 auto">'}
+  else{previewContent='<div style="text-align:center;padding:40px;color:var(--text-secondary)"><div style="font-size:48px;margin-bottom:16px">📄</div><div style="font-size:14px;margin-bottom:8px">Preview tidak tersedia untuk tipe file ini</div><div style="font-size:12px;color:var(--text-tertiary)">'+item.fileName+'</div></div>'}
+  const overlay=document.createElement('div');
+  overlay.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);z-index:10000;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)';
+  overlay.innerHTML='<div style="background:var(--card);border-radius:16px;width:100%;max-width:900px;max-height:90vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)"><div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px"><div style="font-size:20px">📄</div><div style="flex:1"><div style="font-weight:700;font-size:14px;color:var(--text)">'+item.fileName+'</div><div style="font-size:11px;color:var(--text-tertiary);margin-top:2px">ST No. '+item.nomorST+' — '+item.pengaju+'</div></div><button onclick="this.closest(\'div[style*=fixed]\').remove()" style="background:var(--border-light);border:none;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:12px;font-weight:600;color:var(--text-secondary)">✕ Tutup</button></div><div style="padding:16px">'+previewContent+'</div><div style="padding:12px 20px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end"><button onclick="downloadFileST(\''+id+'\')" style="background:var(--primary);color:#fff;border:none;border-radius:8px;padding:8px 20px;cursor:pointer;font-size:12px;font-weight:700">⬇️ Download File</button></div></div>';
+  overlay.addEventListener('click',function(e){if(e.target===overlay)overlay.remove()});
+  document.body.appendChild(overlay);
+}
+function downloadFileST(id){
+  const item=data.find(d=>d.id===id);
+  if(!item||!item.fileData)return;
+  const a=document.createElement('a');
+  a.href=item.fileData;a.download=item.fileName||'surat-tugas.pdf';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
 }
 
 function ppkAction(id,action){
@@ -1493,7 +1542,7 @@ function showDetail(id){
     {label:'Pembayaran',done:d.status==='paid',active:d.status==='approved_pum'}
   ];
   let h='<div class="workflow-bar">'+steps.map(s=>'<div class="wf-step '+(s.done?'done':'')+' '+(s.active?'active':'')+' '+(s.rejected?'rejected':'')+'">'+s.label+'</div>').join('')+'</div>'+
-    '<div class="detail-grid"><div class="detail-item"><div class="label">No. ST</div><div class="value">'+d.nomorST+'</div></div><div class="detail-item"><div class="label">Tanggal ST</div><div class="value">'+formatDate(d.tanggalST)+'</div></div><div class="detail-item"><div class="label">Pengaju</div><div class="value">'+d.pengaju+'</div></div><div class="detail-item"><div class="label">Perihal</div><div class="value">'+d.perihal+'</div></div><div class="detail-item"><div class="label">Lokasi Dinas</div><div class="value">📍 '+(d.lokasi||'-')+'</div></div><div class="detail-item"><div class="label">Jenis</div><div class="value">'+(isLK?'Luar Kota':'Dalam Kota')+'</div></div><div class="detail-item"><div class="label">Tanggal Dinas</div><div class="value">'+formatDate(d.tglMulai)+' s.d. '+formatDate(d.tglSelesai)+'</div></div><div class="detail-item"><div class="label">Jumlah Hari</div><div class="value">'+d.jumlahHari+' hari</div></div><div class="detail-item"><div class="label">File ST</div><div class="value">'+d.fileName+' (TTE ✅)</div></div><div class="detail-item"><div class="label">Sumber Data</div><div class="value">🤖 Analisa Otomatis</div></div><div class="detail-item full-span"><div class="label">Pegawai ('+d.pegawai.length+' orang)</div><div class="value">'+d.pegawai.join(', ')+'</div></div></div>';
+    '<div class="detail-grid"><div class="detail-item"><div class="label">No. ST</div><div class="value">'+d.nomorST+'</div></div><div class="detail-item"><div class="label">Tanggal ST</div><div class="value">'+formatDate(d.tanggalST)+'</div></div><div class="detail-item"><div class="label">Pengaju</div><div class="value">'+d.pengaju+'</div></div><div class="detail-item"><div class="label">Perihal</div><div class="value">'+d.perihal+'</div></div><div class="detail-item"><div class="label">Lokasi Dinas</div><div class="value">📍 '+(d.lokasi||'-')+'</div></div><div class="detail-item"><div class="label">Jenis</div><div class="value">'+(isLK?'Luar Kota':'Dalam Kota')+'</div></div><div class="detail-item"><div class="label">Tanggal Dinas</div><div class="value">'+formatDate(d.tglMulai)+' s.d. '+formatDate(d.tglSelesai)+'</div></div><div class="detail-item"><div class="label">Jumlah Hari</div><div class="value">'+d.jumlahHari+' hari</div></div><div class="detail-item"><div class="label">File ST</div><div class="value">'+d.fileName+' (Sudah Ditandatangani ✅)'+(d.fileData?' <button onclick="viewFileST(\''+d.id+'\')" style="margin-left:8px;background:var(--primary);color:#fff;border:none;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:11px;font-weight:700">📄 Lihat ST</button>':'')+'</div></div><div class="detail-item"><div class="label">Sumber Data</div><div class="value">🤖 Analisa Otomatis</div></div><div class="detail-item full-span"><div class="label">Pegawai ('+d.pegawai.length+' orang)</div><div class="value">'+d.pegawai.join(', ')+'</div></div></div>';
   if(d.totalBiaya){
     h+='<div class="section-title">Rincian Biaya</div><div class="cost-section"><div class="cost-row"><span class="cost-label">'+(isLK?'Uang Harian':'Transport Lokal')+' — otomatis ('+d.pegawai.length+' org × '+d.jumlahHari+' hari × '+formatRp(isLK?300000:170000)+')</span><span class="rp">'+formatRp(isLK?d.biayaUangHarian:d.biayaTransportLokal)+'</span></div>';
     (d.biayaTambahan||[]).forEach(bt=>{h+='<div class="cost-row"><span class="cost-label">'+bt.jenis+(bt.keterangan?' ('+bt.keterangan+')':'')+'</span><span class="rp">'+formatRp(bt.nominal)+'</span></div>'});
